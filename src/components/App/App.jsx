@@ -19,6 +19,8 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import ShowcasePage from '../ShowcasePage/ShowcasePage'
+import ReviewPage  from '../ReviewPage/ReviewPage';
 
 import './App.css';
 
@@ -89,6 +91,22 @@ function App() {
             path="/landingPage"
           >
             <LandingPage/>
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path="/showcasePage"
+          >
+            <ShowcasePage />
+          </ProtectedRoute>
+
+
+     
+          <ProtectedRoute
+            exact
+            path="/reviewPage"
+          >
+            <ReviewPage />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
