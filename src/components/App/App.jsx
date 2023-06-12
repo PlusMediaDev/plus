@@ -19,10 +19,15 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+
+//Landing Page buttons:
 import ShowcasePage from '../ShowcasePage/ShowcasePage'
 import ReviewPage  from '../ReviewPage/ReviewPage';
+import DirectionsPage from '../DirectionsPage/DirectionsPage';
+import ProfilePage from '../ProfilePage/ProfilePage';
 
 import './App.css';
+import UploadPage from '../UploadPage/UploadPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -86,6 +91,8 @@ function App() {
             }
           </Route>
 
+          
+
           <ProtectedRoute
             exact
             path="/landingPage"
@@ -100,13 +107,32 @@ function App() {
             <ShowcasePage />
           </ProtectedRoute>
 
-
-     
           <ProtectedRoute
             exact
             path="/reviewPage"
           >
             <ReviewPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path="/uploadPage"
+          >
+            <UploadPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path="/directionsPage"
+          >
+            <DirectionsPage />
+          </ProtectedRoute>
+     
+          <ProtectedRoute
+            exact
+            path="/profilePage"
+          >
+            <ProfilePage />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}

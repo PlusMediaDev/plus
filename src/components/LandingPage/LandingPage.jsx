@@ -13,15 +13,15 @@ function LandingPage() {
         Showcase
       </button>
 
-      <button className='landing-page-button'>  
+      <button className='landing-page-button' onClick={() => {history.push("/uploadPage")}}>  
         Upload
       </button>
 
-      <button className='landing-page-button'>  
+      <button className='landing-page-button' onClick={() => {history.push("/directionsPage")}}>  
         Directions
       </button>
 
-      <button className='landing-page-button'>  
+      <button className='landing-page-button' onClick={() => {history.push("/profilePage")}}>  
         Profile
       </button>
     </>
