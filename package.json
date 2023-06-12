@@ -34,7 +34,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "prettier": "2.8.8"
   },
   "browserslist": {
     "production": [
