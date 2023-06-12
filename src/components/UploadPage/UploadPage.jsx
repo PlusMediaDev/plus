@@ -15,11 +15,10 @@ function UploadPage() {
     //Dispatch function for a SAGA to take user input media file and send it to AWS:
     function uploadMedia() {
         console.log('This is current state of media', media);
-        // dispatch({
-        //     type: 'SAGA_'
-        //     payload:
-        // })
-
+        dispatch({
+            type: 'SAGA_UPLOAD',
+            payload: {media: media}
+        })
     }
 
     return (
