@@ -21,8 +21,8 @@ function LandingPage() {
         Directions
       </button>
 
-      <button className='landing-page-button' onClick={() => {history.push("/profilePage")}}>  
-        Profile
+      <button className='landing-page-button' onClick={() => {history.push("/accountPage")}}>  
+        Account
       </button>
     </>
   )

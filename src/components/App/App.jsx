@@ -24,7 +24,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import ShowcasePage from '../ShowcasePage/ShowcasePage'
 import ReviewPage  from '../ReviewPage/ReviewPage';
 import DirectionsPage from '../DirectionsPage/DirectionsPage';
-import ProfilePage from '../ProfilePage/ProfilePage';
+import AccountPage from '../AccountPage/AccountPage';
 
 import './App.css';
 import UploadPage from '../UploadPage/UploadPage';
@@ -91,7 +91,7 @@ function App() {
             }
           </Route>
 
-          
+
 
           <ProtectedRoute
             exact
@@ -130,9 +130,9 @@ function App() {
      
           <ProtectedRoute
             exact
-            path="/profilePage"
+            path="/accountPage"
           >
-            <ProfilePage />
+            <AccountPage />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
