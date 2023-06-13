@@ -1,4 +1,5 @@
 const pg = require('pg');
+/** @type {pg.Pool} */
 let pool;
 
 // When our app is deployed to the internet 

@@ -70,4 +70,44 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
   }
 });
 
+/*
+ * Get random upload to rate
+ */
+router.get("/random", rejectUnauthenticated, async (req, res) => {
+  if (!req.user) {
+    res.sendStatus(500);
+    return;
+  }
+
+  try {
+    const { rows: uploads } = await pool.query(
+      `
+        SELECT
+          "uploads_for_rating"."id",
+          "uploads_for_rating"."content_url" AS "contentUrl"
+        FROM "uploads_for_rating"
+        FULL OUTER JOIN "ratings"
+        ON "uploads_for_rating"."id" = "ratings"."upload_id"
+        WHERE "uploads_for_rating"."user_id" != $1
+        GROUP BY "uploads_for_rating"."id"
+        HAVING COUNT (CASE WHEN "ratings"."user_id" = $1 THEN 1 END) < 1
+        ORDER BY RANDOM ()
+        LIMIT 1;
+      `,
+      [req.user.id]
+    );
+    const upload = uploads[0] || undefined;
+
+    if (upload === undefined) {
+      res.send(null);
+      return;
+    }
+
+    res.send(upload);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
 module.exports = router;
