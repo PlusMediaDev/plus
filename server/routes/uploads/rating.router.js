@@ -7,6 +7,7 @@ const pool = require("../../modules/pool");
 const router = express.Router();
 
 /*
+ * Hi -Japheth
  * Rate content
  */
 router.post("/", rejectUnauthenticated, async (req, res) => {
@@ -19,9 +20,10 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     const { rows: previousRatings } = await pool.query(
       `
         SELECT * FROM "ratings"
-        WHERE "user_id" = $1;
+        WHERE "user_id" = $1
+          AND "upload_id" = $2;
       `,
-      [req.user.id]
+      [req.user.id, req.body.id]
     );
 
     /* Prevent a user from rating a post multiple times
