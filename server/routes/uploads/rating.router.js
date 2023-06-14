@@ -104,6 +104,7 @@ router.get("/random", rejectUnauthenticated, async (req, res) => {
     }
 
     res.send(upload);
+    console.log('This should be a random Pic', upload);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
