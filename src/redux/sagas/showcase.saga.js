@@ -1,0 +1,17 @@
+import { put, takeLatest } from 'redux-saga/effects';
+
+function* meme() {
+    try {
+      const randomMeme = yield axios.get('/api/uploads/rating/random');
+      yield put({ type: 'RANDOM_MEME', payload: randomMeme});
+      console.log('Here is the Random Meme', randomMeme);
+    } catch (error) {
+         console.log('User get request failed', error);
+    }
+  }
+  
+function* Showcase() {
+    yield takeLatest('SAGA_GET_A_RANDOM_MEME', meme);
+  }
+  
+  export default Showcase;
