@@ -3,7 +3,7 @@ import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import Showcase from './showcase.saga';
-
+import reviewMeme from './reviewMeme.saga';
 //LandingPage button related sagas:
 import uploadSaga from './upload.saga';
 
@@ -20,6 +20,7 @@ export default function* rootSaga() {
     registrationSaga(),
     userSaga(),
     uploadSaga(),
-    Showcase()
+    Showcase(),
+    reviewMeme()
   ]);
 }

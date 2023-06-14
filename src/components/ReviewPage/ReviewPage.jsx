@@ -1,21 +1,24 @@
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useState} from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 function ReviewPage() {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const [buttonNumber, setButtonNumber] = useState(0);
+  const randomMeme = useSelector((store) => store.memeStorage);
 
-  const handleButtonClick = (reviewNumber) => {
-    setButtonNumber(reviewNumber);
+
+  function handleButtonClick (reviewNumber) {
     dispatch({
         type: 'SAGA_REVIEW_NUMBER',
-        payload: buttonNumber
+        payload: {
+          rating: reviewNumber,
+          id: randomMeme.id
+        }
       });
-    history.push("/Showcase");
+    history.push('/showcasePage');
+
   };
 
   const renderButtons = () => {
@@ -29,7 +32,7 @@ function ReviewPage() {
     }
     return buttons;
   };
-  console.log('Here is the button number', buttonNumber);
+
   return (
     <div>
       <div>

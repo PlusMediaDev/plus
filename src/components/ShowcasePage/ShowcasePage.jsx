@@ -42,7 +42,7 @@ function ShowcasePage() {
       onTouchStart={touchStart}
       onTouchEnd={touchEnd}
     >
-      {<img src={randomMeme}/>}
+      {<img src={randomMeme.contentUrl}/>}
     </div>
   );
 }

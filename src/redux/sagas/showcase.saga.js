@@ -4,7 +4,7 @@ import axios from 'axios';
 function* meme() {
     try {
       const randomMeme = yield axios.get('/api/uploads/rating/random');
-      yield put({ type: 'RANDOM_MEME', payload: randomMeme});
+      yield put({ type: 'RANDOM_MEME', payload: randomMeme.data});
       console.log('Here is the Random Meme', randomMeme);
     } catch (error) {
          console.log('User get request failed', error);
