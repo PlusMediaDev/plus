@@ -1,7 +1,9 @@
 CREATE TABLE "users" (
 	"id" SERIAL PRIMARY KEY,
 	"email" VARCHAR(254) NOT NULL UNIQUE,
-	"password" VARCHAR(1000) NOT NULL
+	"password" VARCHAR(1000) NOT NULL,
+	"tokens" INT NOT NULL DEFAULT 0
+		CONSTRAINT "tokens_not_negative" CHECK ("tokens" >= 0)
 );
 
 CREATE TABLE "uploads_for_rating" (
