@@ -47,4 +47,13 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.get("/tokens", rejectUnauthenticated, (req, res) => {
+  if (!req.user) {
+    res.sendStatus(500);
+    return;
+  }
+
+  res.send({ tokens: req.user.tokens });
+});
+
 module.exports = router;
