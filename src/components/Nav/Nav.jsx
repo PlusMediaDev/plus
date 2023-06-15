@@ -9,23 +9,30 @@ function Nav() {
 
   return (
     <div className="nav">
+
+
+
+      {/* If a user is logged in, show these links */}
+      {user.id && (
+        <>
+          <Link className="navLinkProfile" to="/accountPage">
+            ☃️
+          </Link>
+        </>
+      )}
+
       <Link to="/landingPage">
         <h2 className="nav-title">✚</h2>
       </Link>
-      <div>
 
-        {/* If a user is logged in, show these links */}
-        {user.id && (
-          <>
-            <Link className="navLink" to="/accountPage">
-              ☃️
-            </Link>
+      {user.id && (
+        <>
+          <LogOutButton className="navLinkLogOut" />
+        </>
+      )}
+      
 
-            <LogOutButton className="navLink" />
-          </>
-        )}
 
-      </div>
     </div>
   );
 }
