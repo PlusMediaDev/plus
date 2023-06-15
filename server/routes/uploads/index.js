@@ -1,11 +1,15 @@
 const express = require("express");
 const pool = require("../../modules/pool");
 const ratingRouter = require("./rating.router");
-const { rejectUnauthenticated } = require("../../modules/authentication-middleware");
+const matchingRouter = require("./matching.router");
+const {
+  rejectUnauthenticated,
+} = require("../../modules/authentication-middleware");
 
 const router = express.Router();
 
 router.use("/rating", ratingRouter);
+router.use("/matching", matchingRouter);
 
 /*
  * Upload content

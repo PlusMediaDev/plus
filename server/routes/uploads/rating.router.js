@@ -18,7 +18,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
 
   /**
    * @param {*} body
-   * @returns {RequestBody}
+   * @returns {RequestBody | null}
    */
   const validate = (body) => {
     const id = body["id"];
