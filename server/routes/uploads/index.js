@@ -7,6 +7,36 @@ const router = express.Router();
 
 router.use("/rating", ratingRouter);
 
+
+// require .env file for getting bucket name:
+require('dotenv').config();
+const bucketName = process.env.AWS_BUCKET_NAME;
+
+//require function for uploading object to AWS
+const uploadToAWS = require('./sample');
+
+
+//For AWS post:
+router.post('/aws', (req, res) => {
+
+  //Media file:
+  const mediaFile = req.body.media
+
+  // Set the parameters
+  const params = {
+    Bucket: bucketName, // The name of the bucket. For example, 'sample-bucket-101'.
+    Key: "mediaFile1", // The name of the object. For example, 'sample_upload.txt'.
+    Body: mediaFile, // The content of the object. For example, 'Hello world!".
+  };
+
+  uploadToAWS(params);
+
+  console.log('req.body.media ->', req.body.media);
+
+  res.sendStatus(200);
+});
+
+
 /*
  * Upload content
  */

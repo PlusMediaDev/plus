@@ -13,10 +13,11 @@ function UploadPage() {
     const [media, setMedia] = useState(null);
 
     //Dispatch function for a SAGA to take user input media file and send it to AWS:
-    function uploadMedia() {
+    function uploadMedia(event) {
+        event.preventDefault();
         console.log('This is current state of media', media);
         dispatch({
-            type: 'SAGA_UPLOAD',
+            type: 'SAGA_UPLOAD_MEDIA',
             payload: {media: media}
         })
     }
