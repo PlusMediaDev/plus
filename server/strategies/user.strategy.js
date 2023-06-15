@@ -50,14 +50,14 @@ passport.use(
           // Not good! Username and password do not match.
           // done takes an error (null in this case) and a user (also null in this case)
           // this will result in the server returning a 401 status code
-          done(null, null);
+          done(null);
         }
       })
       .catch((error) => {
         console.log('Error with query for user ', error);
         // done takes an error (we have one) and a user (null in this case)
         // this will result in the server returning a 500 status code
-        done(error, null);
+        done(error);
       });
   })
 );
