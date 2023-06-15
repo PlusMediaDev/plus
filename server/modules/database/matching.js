@@ -19,6 +19,36 @@ const withPoolClient = async (createClient, fn) => {
 };
 
 /**
+ * @param {import("pg").ClientBase | import("pg").Pool} client
+ * @param {number} id
+ */
+const pruneUpload = async (client, id) => {
+  /** @type {import("pg").QueryResult<{ tokens: number }>} */
+  const { rows: uploads } = await client.query(
+    `
+      SELECT
+        "tokens"
+      FROM "uploads_for_matching"
+      WHERE "id" = $1
+    `,
+    [id]
+  );
+  const upload = uploads[0] || undefined;
+
+  if (!upload || upload.tokens > 0) {
+    return;
+  }
+
+  await client.query(
+    `
+      DELETE FROM "uploads_for_matching"
+      WHERE "id" = $1
+    `,
+    [id]
+  );
+}
+
+/**
  * @template T
  * @template C
  * @param {C extends import("pg").ClientBase | import("pg").Pool ? C : never} client
@@ -47,6 +77,7 @@ const runSingleMatchWithClient = async (client) => {
    * @typedef Upload
    * @property {number} id
    * @property {number} averageRating
+   * @property {number} tokens
    */
 
   // Lock existing rows
@@ -62,7 +93,8 @@ const runSingleMatchWithClient = async (client) => {
     `
       SELECT
         "id",
-        "average_rating" AS "averageRating"
+        "average_rating" AS "averageRating",
+        "tokens"
       FROM "uploads_for_matching"
       ORDER BY
         "last_matched_at" NULLS FIRST,
@@ -153,7 +185,10 @@ const runSingleMatchWithClient = async (client) => {
     return true;
   }
 
+  const losingUpload = winner === 1 ? secondUpload : firstUpload;
   const transferAmount = 1;
+  // Cap transfer
+  const actualTransferAmount = Math.min(losingUpload.tokens, transferAmount);
 
   const query = `
     UPDATE "uploads_for_matching"
@@ -166,12 +201,15 @@ const runSingleMatchWithClient = async (client) => {
   `;
   await client.query(query, [
     firstUpload.id,
-    winner === 1 ? transferAmount : -transferAmount,
+    winner === 1 ? actualTransferAmount : -actualTransferAmount,
   ]);
   await client.query(query, [
     secondUpload.id,
-    winner === 2 ? transferAmount : -transferAmount,
+    winner === 2 ? actualTransferAmount : -actualTransferAmount,
   ]);
+
+  await pruneUpload(client, firstUpload.id);
+  await pruneUpload(client, secondUpload.id);
 
   return true;
 };
