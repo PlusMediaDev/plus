@@ -20,19 +20,32 @@ function ShowcasePage() {
       history.push('/reviewPage');
   };
 
+  const handleSwipeLeftToRight = () => {
+    history.push('/landingPage');
+  };
+
   let startY;
+  let startX;
+
 
   const touchStart = (event) => {
     const touch = event.touches[0];
     startY = touch.clientY;
+    startX = touch.clientX;
   };
 
   const touchEnd = (event) => {
     const touch = event.changedTouches[0];
     const deltaY = touch.clientY - startY;
+    const deltaX = touch.clientX - startX;
+
 
     if (deltaY < -50) {
       handleSwipeUp();
+    }
+
+    if (deltaX > 50) {
+      handleSwipeLeftToRight();
     }
   };
 
