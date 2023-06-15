@@ -7,5 +7,4 @@ declare global {
   }
 }
 
-// export type User = Express.User;
 export {}
