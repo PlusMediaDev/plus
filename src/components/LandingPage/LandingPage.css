@@ -1,3 +1,92 @@
+/*---------------------------------------------------------------------------------
+Landing Page CSS Stuff 
+---------------------------------------------------------------------------------*/
+
+.landing-page-css {
+
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column; 
+
+  margin: 10%;
+  margin-bottom: 500px;
+}
+
+.showcase-page-button {
+  justify-content: space-evenly;
+  flex-direction: column; 
+  
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #98befb 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #dae8ff;
+
+  color: #2277ff;
+  
+}
+
+.upload-page-button {
+  justify-content: space-evenly;
+  flex-direction: column; 
+
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #98befb 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #dae8ff;
+
+  color: #2277ff;
+
+}
+
+.directions-page-button {
+  justify-content: space-evenly;
+  flex-direction: column; 
+
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #98befb 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #dae8ff;
+
+  color: #2277ff;
+
+}
+
+.account-page-button {
+  justify-content: space-evenly;
+  flex-direction: column; 
+
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #98befb 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #dae8ff;
+
+  color: #2277ff;
+
+}
+
+
+
+
 /* --------------------------------------------------------------------------------
 Grid
 -------------------------------------------------------------------------------- */
