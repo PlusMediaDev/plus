@@ -9,7 +9,7 @@ const pool = require("../pool");
  * @param {NewUpload} upload
  * @param {number} userId
  */
-export const newUpload = async (upload, userId) => {
+const newUpload = async (upload, userId) => {
   await pool.query(
     `
       INSERT INTO "uploads_for_rating"
@@ -19,4 +19,8 @@ export const newUpload = async (upload, userId) => {
     `,
     [userId, upload.contentUrl]
   );
+};
+
+module.exports = {
+  newUpload,
 };

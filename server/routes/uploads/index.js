@@ -54,7 +54,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
 
   try {
     await newUpload({ contentUrl: body.contentUrl }, req.user.id);
-    res.send(201);
+    res.sendStatus(201);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
