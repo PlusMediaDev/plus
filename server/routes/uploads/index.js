@@ -15,23 +15,41 @@ const bucketName = process.env.AWS_BUCKET_NAME;
 //require function for uploading object to AWS
 const uploadToAWS = require('./sample');
 
+//require multer stuff:
+const multer = require('multer')
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/Users/hengyang/pictures')
+  },
+  filename: function (t, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.originalname + '-' + uniqueSuffix + '.jpeg')
+  }
+})
+
+const upload = multer({ storage: storage })
 
 //For AWS post:
-router.post('/aws', (req, res) => {
+router.post('/aws', upload.single('uploaded_media'), (req, res) => {
+
+  // req.file is the name of your file in the form above, here 'uploaded_file'
+  // req.body will hold the text fields, if there were any 
+  console.log('Req.file ->', req.file)
+
 
   //Media file:
-  const mediaFile = req.body.media
+  const mediaFile = req.file
 
   // Set the parameters
   const params = {
     Bucket: bucketName, // The name of the bucket. For example, 'sample-bucket-101'.
-    Key: "mediaFile1", // The name of the object. For example, 'sample_upload.txt'.
-    Body: mediaFile, // The content of the object. For example, 'Hello world!".
+    Key: mediaFile.filename, // The name of the object. For example, 'sample_upload.txt'.
+    Body: Buffer.from(JSON.stringify(mediaFile)), // The content of the object. For example, 'Hello world!".
   };
 
   uploadToAWS(params);
 
-  console.log('req.body.media ->', req.body.media);
+  console.log('req.file ->', req.file);
 
   res.sendStatus(200);
 });
