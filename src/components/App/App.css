@@ -108,6 +108,38 @@ Button
   color: #008183;
 }
 
+.upload-button {
+
+  display: inline-block;
+  padding: 5px 10px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f49f;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+
+}
+
+.file-button {
+
+  display: inline-block;
+  padding: 5px 10px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f49f;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+
+  margin-left: 0px;
+
+}
+
 /* --------------------------------------------------------------------------------
 Alert
 -------------------------------------------------------------------------------- */
@@ -126,6 +158,18 @@ Alert
 /* --------------------------------------------------------------------------------
 Form Treatment
 -------------------------------------------------------------------------------- */
+.upload-form {
+
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 25px;
+  margin: 0 auto 20px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+}
 
 .formPanel {
   box-sizing: border-box;
