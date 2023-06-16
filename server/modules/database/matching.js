@@ -23,11 +23,20 @@ const withPoolClient = async (createClient, fn) => {
  * @param {number} id
  */
 const pruneUpload = async (client, id) => {
-  /** @type {import("pg").QueryResult<{ tokens: number }>} */
+  /**
+   * @typedef Upload
+   * @property {number} totalMatches
+   * @property {number} tokens
+   * @property {number} userId
+   */
+
+  /** @type {import("pg").QueryResult<Upload>} */
   const { rows: uploads } = await client.query(
     `
       SELECT
-        "tokens"
+        "total_matches" AS "totalMatches",
+        "tokens",
+        "user_id" AS "userId"
       FROM "uploads_for_matching"
       WHERE "id" = $1
     `,
@@ -35,17 +44,40 @@ const pruneUpload = async (client, id) => {
   );
   const upload = uploads[0] || undefined;
 
-  if (!upload || upload.tokens > 0) {
+  if (!upload) {
     return;
   }
 
-  await client.query(
-    `
-      DELETE FROM "uploads_for_matching"
-      WHERE "id" = $1
-    `,
-    [id]
-  );
+  if (upload.tokens < 1) {
+    await client.query(
+      `
+        DELETE FROM "uploads_for_matching"
+        WHERE "id" = $1
+      `,
+      [id]
+    );
+    return;
+  }
+
+  const matchLimit = 5;
+  if (upload.totalMatches >= matchLimit) {
+    await client.query(
+      `
+        DELETE FROM "uploads_for_matching"
+        WHERE "id" = $1
+      `,
+      [id]
+    );
+    await client.query(
+      `
+        UPDATE "users"
+        SET "tokens" = "tokens" + $2
+        WHERE "id" = $1
+      `,
+      [upload.userId, upload.tokens]
+    );
+    return;
+  }
 }
 
 /**
@@ -115,7 +147,8 @@ const runSingleMatchWithClient = async (client) => {
     `
       SELECT
         "uploads_for_matching"."id" AS "id",
-        "uploads_for_matching"."average_rating" AS "averageRating"
+        "uploads_for_matching"."average_rating" AS "averageRating",
+        "uploads_for_matching"."tokens"
       FROM "uploads_for_matching"
       LEFT JOIN "matches" "matches_left"
         ON "uploads_for_matching"."id" = "matches_left"."upload_1_id"
@@ -187,7 +220,7 @@ const runSingleMatchWithClient = async (client) => {
 
   const losingUpload = winner === 1 ? secondUpload : firstUpload;
   const transferAmount = 1;
-  // Cap transfer
+  // Cap transfer at losing upload's token amount
   const actualTransferAmount = Math.min(losingUpload.tokens, transferAmount);
 
   const query = `
