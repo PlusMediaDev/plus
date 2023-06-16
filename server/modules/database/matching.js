@@ -1,52 +1,92 @@
 const pool = require("../pool");
+const withPoolClient = require("./utils/with-pool-client");
+const runTransaction = require("./utils/run-transaction");
 
 /**
- * @template T
- * @param {() => Promise<import("pg").PoolClient>} createClient
- * @param {(client: import("pg").PoolClient) => Promise<T>} fn
- * @returns {Promise<T>}
+ * @typedef {import("pg").PoolClient} PoolClient
+ * @typedef {import("pg").ClientBase} ClientBase
+ * @typedef {import("pg").Pool} Pool
+ * @typedef {import("pg").QueryResultRow} QueryResultRow
  */
-const withPoolClient = async (createClient, fn) => {
-  const client = await createClient();
-  try {
-    const res = await fn(client);
-    client.release();
-    return res;
-  } catch (err) {
-    client.release();
-    throw err;
+
+/**
+ * @template {QueryResultRow} [R=any]
+ * @typedef {import("pg").QueryResult<R>} QueryResult
+ */
+
+/**
+ * @param {ClientBase | Pool} client
+ * @param {number} id
+ */
+const pruneUpload = async (client, id) => {
+  /**
+   * @typedef Upload
+   * @property {number} totalMatches
+   * @property {number} tokens
+   * @property {number} userId
+   */
+
+  /** @type {QueryResult<Upload>} */
+  const { rows: uploads } = await client.query(
+    `
+      SELECT
+        "total_matches" AS "totalMatches",
+        "tokens",
+        "user_id" AS "userId"
+      FROM "uploads_for_matching"
+      WHERE "id" = $1
+    `,
+    [id]
+  );
+  const upload = uploads[0] || undefined;
+
+  if (!upload) {
+    return;
+  }
+
+  if (upload.tokens < 1) {
+    await client.query(
+      `
+        DELETE FROM "uploads_for_matching"
+        WHERE "id" = $1
+      `,
+      [id]
+    );
+    return;
+  }
+
+  const matchLimit = 5;
+  if (upload.totalMatches >= matchLimit) {
+    await client.query(
+      `
+        DELETE FROM "uploads_for_matching"
+        WHERE "id" = $1
+      `,
+      [id]
+    );
+    await client.query(
+      `
+        UPDATE "users"
+        SET "tokens" = "tokens" + $2
+        WHERE "id" = $1
+      `,
+      [upload.userId, upload.tokens]
+    );
+    return;
   }
 };
 
 /**
- * @template T
  * @template C
- * @param {C extends import("pg").ClientBase | import("pg").Pool ? C : never} client
- * @param {(client: C) => Promise<T>} fn
- * @returns {Promise<T>}
- */
-const withTransaction = async (client, fn) => {
-  client.query("BEGIN");
-  try {
-    const res = await fn(client);
-    client.query("COMMIT");
-    return res;
-  } catch (err) {
-    client.query("ROLLBACK");
-    throw err;
-  }
-};
-
-/**
- * @template C
- * @param {C extends import("pg").ClientBase | import("pg").Pool ? C : never} client
- * @returns {Promise<boolean>}
+ * @param {C extends ClientBase | Pool ? C : never} client
+ * @returns {Promise<["commit" | "rollback", boolean]>}
  */
 const runSingleMatchWithClient = async (client) => {
   /**
    * @typedef Upload
    * @property {number} id
    * @property {number} averageRating
+   * @property {number} tokens
    */
 
   // Lock existing rows
@@ -57,12 +97,13 @@ const runSingleMatchWithClient = async (client) => {
       `
   );
 
-  /** @type {import("pg").QueryResult<Upload>} */
+  /** @type {QueryResult<Upload>} */
   const { rows: firstUploadCandidates } = await client.query(
     `
       SELECT
         "id",
-        "average_rating" AS "averageRating"
+        "average_rating" AS "averageRating",
+        "tokens"
       FROM "uploads_for_matching"
       ORDER BY
         "last_matched_at" NULLS FIRST,
@@ -75,15 +116,16 @@ const runSingleMatchWithClient = async (client) => {
 
   // Nothing found
   if (!firstUpload) {
-    return false;
+    return ["commit", false];
   }
 
-  /** @type {import("pg").QueryResult<Upload>} */
+  /** @type {QueryResult<Upload>} */
   const { rows: secondUploadCandidates } = await client.query(
     `
       SELECT
         "uploads_for_matching"."id" AS "id",
-        "uploads_for_matching"."average_rating" AS "averageRating"
+        "uploads_for_matching"."average_rating" AS "averageRating",
+        "uploads_for_matching"."tokens"
       FROM "uploads_for_matching"
       LEFT JOIN "matches" "matches_left"
         ON "uploads_for_matching"."id" = "matches_left"."upload_1_id"
@@ -105,7 +147,7 @@ const runSingleMatchWithClient = async (client) => {
 
   // Nothing found
   if (!secondUpload) {
-    return false;
+    return ["commit", false];
   }
 
   await client.query(
@@ -150,10 +192,13 @@ const runSingleMatchWithClient = async (client) => {
 
     await client.query(query, [firstUpload.id]);
     await client.query(query, [secondUpload.id]);
-    return true;
+    return ["commit", true];
   }
 
+  const losingUpload = winner === 1 ? secondUpload : firstUpload;
   const transferAmount = 1;
+  // Cap transfer at losing upload's token amount
+  const actualTransferAmount = Math.min(losingUpload.tokens, transferAmount);
 
   const query = `
     UPDATE "uploads_for_matching"
@@ -166,14 +211,17 @@ const runSingleMatchWithClient = async (client) => {
   `;
   await client.query(query, [
     firstUpload.id,
-    winner === 1 ? transferAmount : -transferAmount,
+    winner === 1 ? actualTransferAmount : -actualTransferAmount,
   ]);
   await client.query(query, [
     secondUpload.id,
-    winner === 2 ? transferAmount : -transferAmount,
+    winner === 2 ? actualTransferAmount : -actualTransferAmount,
   ]);
 
-  return true;
+  await pruneUpload(client, firstUpload.id);
+  await pruneUpload(client, secondUpload.id);
+
+  return ["commit", true];
 };
 
 /**
@@ -181,8 +229,8 @@ const runSingleMatchWithClient = async (client) => {
  */
 const runSingleMatch = async () => {
   const res = await withPoolClient(
-    async () => await pool.connect(),
-    (client) => withTransaction(client, runSingleMatchWithClient)
+    async () => pool.connect(),
+    (client) => runTransaction(client, runSingleMatchWithClient)
   );
   return res;
 };
