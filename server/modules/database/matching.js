@@ -1,9 +1,21 @@
 const pool = require("../pool");
 
 /**
+ * @typedef {import("pg").PoolClient} PoolClient
+ * @typedef {import("pg").ClientBase} ClientBase
+ * @typedef {import("pg").Pool} Pool
+ * @typedef {import("pg").QueryResultRow} QueryResultRow
+ */
+
+/**
+ * @template {QueryResultRow} [R=any]
+ * @typedef {import("pg").QueryResult<R>} QueryResult
+ */
+
+/**
  * @template T
- * @param {() => Promise<import("pg").PoolClient>} createClient
- * @param {(client: import("pg").PoolClient) => Promise<T>} fn
+ * @param {() => Promise<PoolClient>} createClient
+ * @param {(client: PoolClient) => Promise<T>} fn
  * @returns {Promise<T>}
  */
 const withPoolClient = async (createClient, fn) => {
@@ -19,7 +31,7 @@ const withPoolClient = async (createClient, fn) => {
 };
 
 /**
- * @param {import("pg").ClientBase | import("pg").Pool} client
+ * @param {ClientBase | Pool} client
  * @param {number} id
  */
 const pruneUpload = async (client, id) => {
@@ -30,7 +42,7 @@ const pruneUpload = async (client, id) => {
    * @property {number} userId
    */
 
-  /** @type {import("pg").QueryResult<Upload>} */
+  /** @type {QueryResult<Upload>} */
   const { rows: uploads } = await client.query(
     `
       SELECT
@@ -78,12 +90,12 @@ const pruneUpload = async (client, id) => {
     );
     return;
   }
-}
+};
 
 /**
  * @template T
- * @template C
- * @param {C extends import("pg").ClientBase | import("pg").Pool ? C : never} client
+ * @template {ClientBase | Pool} C
+ * @param {C} client
  * @param {(client: C) => Promise<T>} fn
  * @returns {Promise<T>}
  */
@@ -101,7 +113,7 @@ const withTransaction = async (client, fn) => {
 
 /**
  * @template C
- * @param {C extends import("pg").ClientBase | import("pg").Pool ? C : never} client
+ * @param {C extends ClientBase | Pool ? C : never} client
  * @returns {Promise<boolean>}
  */
 const runSingleMatchWithClient = async (client) => {
@@ -120,7 +132,7 @@ const runSingleMatchWithClient = async (client) => {
       `
   );
 
-  /** @type {import("pg").QueryResult<Upload>} */
+  /** @type {QueryResult<Upload>} */
   const { rows: firstUploadCandidates } = await client.query(
     `
       SELECT
@@ -142,7 +154,7 @@ const runSingleMatchWithClient = async (client) => {
     return false;
   }
 
-  /** @type {import("pg").QueryResult<Upload>} */
+  /** @type {QueryResult<Upload>} */
   const { rows: secondUploadCandidates } = await client.query(
     `
       SELECT
