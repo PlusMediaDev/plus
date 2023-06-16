@@ -1,4 +1,6 @@
 const pool = require("../pool");
+const withPoolClient = require("./utils/with-pool-client");
+const runTransaction = require("./utils/run-transaction");
 
 /**
  * @typedef {import("pg").PoolClient} PoolClient
@@ -11,24 +13,6 @@ const pool = require("../pool");
  * @template {QueryResultRow} [R=any]
  * @typedef {import("pg").QueryResult<R>} QueryResult
  */
-
-/**
- * @template T
- * @param {() => Promise<PoolClient>} createClient
- * @param {(client: PoolClient) => Promise<T>} fn
- * @returns {Promise<T>}
- */
-const withPoolClient = async (createClient, fn) => {
-  const client = await createClient();
-  try {
-    const res = await fn(client);
-    client.release();
-    return res;
-  } catch (err) {
-    client.release();
-    throw err;
-  }
-};
 
 /**
  * @param {ClientBase | Pool} client
@@ -93,28 +77,9 @@ const pruneUpload = async (client, id) => {
 };
 
 /**
- * @template T
- * @template {ClientBase | Pool} C
- * @param {C} client
- * @param {(client: C) => Promise<T>} fn
- * @returns {Promise<T>}
- */
-const withTransaction = async (client, fn) => {
-  client.query("BEGIN");
-  try {
-    const res = await fn(client);
-    client.query("COMMIT");
-    return res;
-  } catch (err) {
-    client.query("ROLLBACK");
-    throw err;
-  }
-};
-
-/**
  * @template C
  * @param {C extends ClientBase | Pool ? C : never} client
- * @returns {Promise<boolean>}
+ * @returns {Promise<["commit" | "rollback", boolean]>}
  */
 const runSingleMatchWithClient = async (client) => {
   /**
@@ -151,7 +116,7 @@ const runSingleMatchWithClient = async (client) => {
 
   // Nothing found
   if (!firstUpload) {
-    return false;
+    return ["commit", false];
   }
 
   /** @type {QueryResult<Upload>} */
@@ -182,7 +147,7 @@ const runSingleMatchWithClient = async (client) => {
 
   // Nothing found
   if (!secondUpload) {
-    return false;
+    return ["commit", false];
   }
 
   await client.query(
@@ -227,7 +192,7 @@ const runSingleMatchWithClient = async (client) => {
 
     await client.query(query, [firstUpload.id]);
     await client.query(query, [secondUpload.id]);
-    return true;
+    return ["commit", true];
   }
 
   const losingUpload = winner === 1 ? secondUpload : firstUpload;
@@ -256,7 +221,7 @@ const runSingleMatchWithClient = async (client) => {
   await pruneUpload(client, firstUpload.id);
   await pruneUpload(client, secondUpload.id);
 
-  return true;
+  return ["commit", true];
 };
 
 /**
@@ -264,8 +229,8 @@ const runSingleMatchWithClient = async (client) => {
  */
 const runSingleMatch = async () => {
   const res = await withPoolClient(
-    async () => await pool.connect(),
-    (client) => withTransaction(client, runSingleMatchWithClient)
+    async () => pool.connect(),
+    (client) => runTransaction(client, runSingleMatchWithClient)
   );
   return res;
 };
