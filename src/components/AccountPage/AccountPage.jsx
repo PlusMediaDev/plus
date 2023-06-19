@@ -42,8 +42,9 @@ function AccountPage() {
       className="directions"
       onTouchStart={touchStart}
       onTouchEnd={touchEnd}>
-          <h1>Account Page</h1>
-          <p >Here is your tokens won: {tokensWon}</p>
+          <h1 className='login-register-title'>Account Page</h1>
+          <p className='formPanelAccountPage' >Your Total Amount of Tokens!</p>
+          <h1 className='tokensWon'>{tokensWon}</h1>
       </div>
   )
 }

@@ -182,6 +182,56 @@ Form Treatment
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 }
 
+.formPanelAccountPage {
+
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 25px;
+  margin: 60px auto 20px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+  color: #444;
+  background-color: #d7dcff;
+
+  text-align: center;
+}
+
+.tokensWon {
+
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 50px;
+  margin: 100px auto 20px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+  color: #444;
+  background-color: #d7dcff;
+
+  text-align: center;
+  font-size: 200px;
+
+  animation-name: tokensWon;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes tokensWon {
+
+  0%   {background-color: #ff9292;}
+  25%  {background-color: #ffcc95;}
+  50%  {background-color: #fffd96;}
+  75%  {background-color: #8fffb6;}
+  100% {background-color: #d7dcff;}
+
+}
+
 input {
   margin: 5px;
   margin-bottom: 10px;
@@ -208,6 +258,8 @@ username and password css
 .login-register-title {
 
   color: #989898;
+  text-align: center;
+
 }
 
 /* ================================================================================
