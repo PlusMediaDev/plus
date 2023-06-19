@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 function ShowcasePage() {
@@ -17,7 +16,7 @@ function ShowcasePage() {
   console.log("Random Meme", randomMeme);
 
   const handleSwipeUp = () => {
-      history.push('/reviewPage');
+    history.push('/reviewPage');
   };
 
   const handleSwipeLeftToRight = () => {
@@ -26,7 +25,6 @@ function ShowcasePage() {
 
   let startY;
   let startX;
-
 
   const touchStart = (event) => {
     const touch = event.touches[0];
@@ -39,7 +37,6 @@ function ShowcasePage() {
     const deltaY = touch.clientY - startY;
     const deltaX = touch.clientX - startX;
 
-
     if (deltaY < -50) {
       handleSwipeUp();
     }
@@ -50,12 +47,12 @@ function ShowcasePage() {
   };
 
   return (
-    <div
-      className="memeName"
-      onTouchStart={touchStart}
-      onTouchEnd={touchEnd}
-    >
-      {<img src={randomMeme && randomMeme.contentUrl}/>}
+    <div className="memeName" onTouchStart={touchStart} onTouchEnd={touchEnd}>
+      {randomMeme ? (
+        <img src={randomMeme.contentUrl} alt="Random Meme" />
+      ) : (
+        <p className="noMemes">No more random memes available!</p>
+      )}
     </div>
   );
 }
