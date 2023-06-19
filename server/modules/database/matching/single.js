@@ -1,6 +1,10 @@
-const pool = require("../pool");
-const withPoolClient = require("./utils/with-pool-client");
-const runTransaction = require("./utils/run-transaction");
+const pool = require("../../pool");
+const withPoolClient = require("../utils/with-pool-client");
+const runTransaction = require("../utils/run-transaction");
+const {
+  matchLimit,
+  matchTransferAmount,
+} = require("../../../constants/matching");
 
 /**
  * @typedef {import("pg").PoolClient} PoolClient
@@ -55,7 +59,6 @@ const pruneUpload = async (client, id) => {
     return;
   }
 
-  const matchLimit = 5;
   if (upload.totalMatches >= matchLimit) {
     await client.query(
       `
@@ -192,13 +195,19 @@ const runSingleMatchWithClient = async (client) => {
 
     await client.query(query, [firstUpload.id]);
     await client.query(query, [secondUpload.id]);
+
+    await pruneUpload(client, firstUpload.id);
+    await pruneUpload(client, secondUpload.id);
+
     return ["commit", true];
   }
 
   const losingUpload = winner === 1 ? secondUpload : firstUpload;
-  const transferAmount = 1;
   // Cap transfer at losing upload's token amount
-  const actualTransferAmount = Math.min(losingUpload.tokens, transferAmount);
+  const actualTransferAmount = Math.min(
+    losingUpload.tokens,
+    matchTransferAmount
+  );
 
   const query = `
     UPDATE "uploads_for_matching"
