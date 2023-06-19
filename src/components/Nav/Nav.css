@@ -5,8 +5,9 @@
   align-items: center;
 
   margin: 0 0 30px;
-  background-color: #98befb;
+  background-color: #98befba7;
   overflow: hidden;
+  
 }
 
 .nav a {
@@ -21,12 +22,14 @@
   align-content: center;
   text-align: center;
   align-items: center;
+  justify-content: center;
+  
 }
 
 .navLinkProfile {
   display: inline-block;
   color: #f2f2f2;
-  background-color: #98befb;
+  background-color: #98befb00;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;
@@ -43,7 +46,7 @@
 .navLinkLogOut {
   display: inline-block;
   color: #f2f2f2;
-  background-color: #98befb;
+  background-color: #98befb00;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -26,16 +26,22 @@ function LoginForm() {
 
   return (
     <form className="formPanel" onSubmit={login}>
-      <h2>Login</h2>
+
+      <h1 className='login-register-title'>Login</h1>
+
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
         </h3>
       )}
-      <div>
+      <div className='username-div'>
+
+        <h6 className='username-h6'>Username</h6>
+
         <label htmlFor="username">
-          Username:
+
           <input
+            className='username-password-textbox'
             type="text"
             name="username"
             required
@@ -45,9 +51,12 @@ function LoginForm() {
         </label>
       </div>
       <div>
+        <h6 className='username-h6'>Password</h6>
+
         <label htmlFor="password">
-          Password:
+
           <input
+            className='username-password-textbox'
             type="password"
             name="password"
             required
@@ -57,7 +66,7 @@ function LoginForm() {
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+        <input className="btn-login-register" type="submit" name="submit" value="Log In" />
       </div>
     </form>
   );
