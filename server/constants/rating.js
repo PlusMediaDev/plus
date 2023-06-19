@@ -1,3 +1,3 @@
 module.exports = {
-  requiredRatings: 1,
+  requiredRatings: 50,
 };

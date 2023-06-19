@@ -256,9 +256,7 @@ router.get("/status", rejectUnauthenticated, async (req, res) => {
       `,
       [req.user.id]
     );
-    // TODO: configure centrally somewhere
-    const ratingsNeeded = 50;
-    res.send({ ratingsNeeded, uploads });
+    res.send({ ratingsNeeded: requiredRatings, uploads });
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
