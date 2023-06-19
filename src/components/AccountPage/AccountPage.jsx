@@ -48,17 +48,38 @@ function AccountPage() {
 
   const totalReviews = allReviews.ratingsNeeded;
   const currentReviews = allReviews.uploads[0]?.totalRatings;
-  const progress = (currentReviews / totalReviews) * 100;
+  const reviewProgress = (currentReviews / totalReviews) * 100;
+
+  const totalMatches = 50;
+  const currentMatches = 3;
+  const matchesProgress = (currentMatches / totalMatches) * 100;
+
 
   return (
     <div className="directions" onTouchStart={touchStart} onTouchEnd={touchEnd}>
       <h1>Account Page</h1>
       <p>Here are your tokens won: {tokensWon}</p>
-      <p>Review Progress: {progress}%</p>
-      <div className="progress-bar">
-        <div className="progress" style={{ width: `${progress}%` }}>
-        </div>
-      </div>
+      {/* Should not show any progress if they have not uploaded */}
+      {reviewProgress < 100 ? (
+        <>
+          <p>Review Progress: {reviewProgress}%</p>
+          <div className="progress-bar">
+            <div className="progress" style={{ width: `${reviewProgress}%` }}></div>
+          </div>
+        </>
+        // The reviewProgress gets a null, then it should go to automated stage 
+      ) : (
+        <>
+          <p>Meme has been rated, please wait for the meme to be matched</p>
+          <p>Automated Progress: {matchesProgress}%</p>
+          <div className="progress-bar">
+            <div className="progress" style={{ width: `${matchesProgress}%` }}></div>
+          </div>
+        </>
+      )}
+      {/* No more progress */}
+      {/* Need a sentence that says the matching system has ended. Please check your tokens */}
+      {/* Have a sentense that just says there is no progress */}
     </div>
   );
 }
