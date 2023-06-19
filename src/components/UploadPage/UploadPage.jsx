@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';{}
+import { useState } from 'react';
 
 
 function UploadPage() {
@@ -21,8 +21,37 @@ function UploadPage() {
         })
     }
 
+ 
+ const handleSwipeLeftToRight = () => {
+    history.push('/landingPage');
+  };
+
+  
+  let startX;
+
+
+  const touchStart = (event) => {
+    const touch = event.touches[0];
+    startX = touch.clientX;
+  };
+
+  const touchEnd = (event) => {
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - startX;
+
+
+    if (deltaX > 50) {
+      handleSwipeLeftToRight();
+    }
+  };
+
     return (
-        <>
+        
+        <div
+        className="upload"
+        onTouchStart={touchStart}
+        onTouchEnd={touchEnd}
+        >
             <h1 className='login-register-title'>Upload Page</h1>
             <form className='upload-form'>
                 <input className='file-button' type="file" onChange={(event) => {setMedia(event.target.value)}} />
@@ -30,8 +59,8 @@ function UploadPage() {
                     Upload Media
                 </button>
             </form>
-            {/* <button onClick={() => {history.push("/landingPage")}}> Back Button </button> */}
-        </>
+        </div>
+
     )
 }
 

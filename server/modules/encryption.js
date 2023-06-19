@@ -1,9 +1,13 @@
 // No changes should be required in this file
 
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 const SALT_WORK_FACTOR = 10; // This determines how secure the salt should be
 
+/**
+ * @param {string} password
+ * @returns {string}
+ */
 const encryptPassword = (password) => {
   const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR); // This generates a random salt
   // This next line hashes the user password and the random salt
@@ -11,6 +15,11 @@ const encryptPassword = (password) => {
   return bcrypt.hashSync(password, salt);
 };
 
+/**
+ * @param {string} candidatePassword
+ * @param {string} storedPassword
+ * @returns {boolean}
+ */
 const comparePassword = (candidatePassword, storedPassword) => {
   /*
   This takes in the candidate password (what the user entered) to check it.
