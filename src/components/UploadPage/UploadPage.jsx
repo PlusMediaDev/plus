@@ -8,6 +8,7 @@ import { func } from 'prop-types';
 import FormData from 'form-data';
 
 
+
 function UploadPage() {
 
     const history = useHistory();
@@ -45,6 +46,7 @@ function UploadPage() {
                 <button type="submit"> Upload Media </button>
             </form>
             <button onClick={() => { history.push("/landingPage") }}> Back Button </button>
+            {/* <img src={`/Users/hengyang/pictures/catfish.jpeg-1687194202539-520221762.jpeg`} /> */}
         </>
     )
 }

@@ -8,6 +8,7 @@ const router = express.Router();
 router.use("/rating", ratingRouter);
 
 
+
 // require .env file for getting bucket name:
 require('dotenv').config();
 const bucketName = process.env.AWS_BUCKET_NAME;
@@ -15,8 +16,11 @@ const bucketName = process.env.AWS_BUCKET_NAME;
 //require function for uploading object to AWS
 const uploadToAWS = require('./sample');
 
+//readStream:
+// const readStream = require('fs').ReadStream;
 //require multer stuff:
-const multer = require('multer')
+const multer = require('multer');
+const { S3, GetObjectCommand } = require("@aws-sdk/client-s3");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, '/Users/hengyang/pictures')
@@ -28,6 +32,15 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
+
+//s3 stuff 
+const S3Client = require("@aws-sdk/client-s3").S3Client;
+const bucketRegion = process.env.AWS_BUCKET_REGION;
+const accessKeyId = process.env.AWS_ACCESS_KEY;
+const secretAccessKey = process.env.AWS_SECRET_KEY;
+
+
+
 
 //For AWS post:
 router.post('/aws', upload.single('uploaded_media'), (req, res) => {
@@ -47,13 +60,45 @@ router.post('/aws', upload.single('uploaded_media'), (req, res) => {
     Body: Buffer.from(JSON.stringify(mediaFile)), // The content of the object. For example, 'Hello world!".
   };
 
-  uploadToAWS(params);
+  uploadToAWS(params).then(() => res.send(`${mediaFile.filename}`), () => {console.log("ERROR IN ADDING OBJECT TO AWS S3");})
 
   console.log('req.file ->', req.file);
 
-  res.sendStatus(200);
 });
 
+// {imagePath: `api/uploads/aws/${mediaFile.filename}` }
+
+
+//********* FIGURE OUT GET REQUEST ********/
+// For AWS Get:
+router.get('/aws/:key', (req, res) => {
+
+  console.log("I AM IN THE GET ROUTE FOR AWS S3")
+  const key = req.params.key;
+  console.log('This is the key:', key);
+ 
+  getFileStream(key).then((result) => {console.log("RESULTS OF FILE STREAM", result)});
+
+  res.sendStatus(200);
+})
+
+//download file from s3:
+function getFileStream(fileKey) {
+
+  const s3Client = new S3Client({
+    credentials: {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey
+    },
+    region: bucketRegion,
+  });
+
+  const downloadParams = {
+    Bucket: bucketName,
+    Key: fileKey,
+  }
+  return s3Client.send(new GetObjectCommand(downloadParams));
+}
 
 /*
  * Upload content
