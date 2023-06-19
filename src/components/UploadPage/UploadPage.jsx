@@ -46,19 +46,21 @@ function UploadPage() {
   };
 
     return (
+        
         <div
         className="upload"
         onTouchStart={touchStart}
         onTouchEnd={touchEnd}
         >
-            <h1>Upload Page</h1>
-            <form>
-                <input type="file" onChange={(event) => {setMedia(event.target.value)}} />
-                <button onClick={uploadMedia}>
+            <h1 className='login-register-title'>Upload Page</h1>
+            <form className='upload-form'>
+                <input className='file-button' type="file" onChange={(event) => {setMedia(event.target.value)}} />
+                <button className='upload-button' onClick={uploadMedia}>
                     Upload Media
                 </button>
             </form>
         </div>
+
     )
 }
 

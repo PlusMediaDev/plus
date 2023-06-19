@@ -6,6 +6,11 @@ const pool = require("../../modules/pool");
 const { runAllMatches } = require("../../modules/database/matching/batch");
 const { requiredRatings } = require("../../constants/rating");
 
+/**
+ * @template {import("pg").QueryResultRow} [R=any]
+ * @typedef {import("pg").QueryResult<R>} QueryResult
+ */
+
 const router = express.Router();
 
 /*
@@ -107,7 +112,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
       throw err;
     }
 
-    /** @type {import("pg").QueryResult<{ totalRatings: number }>} */
+    /** @type {QueryResult<{ totalRatings: number }>} */
     const { rows: uploads } = await pool.query(
       `
         SELECT
@@ -192,7 +197,7 @@ router.get("/random", rejectUnauthenticated, async (req, res) => {
   }
 
   try {
-    /** @type {import("pg").QueryResult<Upload>} */
+    /** @type {QueryResult<Upload>} */
     const { rows: uploads } = await pool.query(
       `
         SELECT
@@ -221,6 +226,39 @@ router.get("/random", rejectUnauthenticated, async (req, res) => {
     /** @type {ResponseBody} */
     const resBody = { data: upload };
     res.send(resBody);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+router.get("/status", rejectUnauthenticated, async (req, res) => {
+  if (!req.user) {
+    res.sendStatus(500);
+    return;
+  }
+
+  /**
+   * @typedef Upload
+   * @property {number} id
+   * @property {number} totalRatings
+   */
+
+  try {
+    /** @type {QueryResult<Upload>} */
+    const { rows: uploads } = await pool.query(
+      `
+        SELECT
+          "id",
+          "total_ratings" AS "totalRatings"
+        FROM "uploads_for_rating"
+        WHERE "user_id" = $1
+      `,
+      [req.user.id]
+    );
+    // TODO: configure centrally somewhere
+    const ratingsNeeded = 50;
+    res.send({ ratingsNeeded, uploads });
   } catch (err) {
     console.error(err);
     res.sendStatus(500);

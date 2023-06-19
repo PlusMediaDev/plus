@@ -20,17 +20,22 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
+    
     <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
+      <h1 className='login-register-title'>Registration</h1>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
         </h3>
       )}
       <div>
+
+      <h6 className='username-h6'>Username</h6>
+
         <label htmlFor="username">
-          Username:
+          
           <input
+            className='username-password-textbox'
             type="text"
             name="username"
             value={username}
@@ -40,9 +45,13 @@ function RegisterForm() {
         </label>
       </div>
       <div>
+
+      <h6 className='username-h6'>Password</h6>
+
         <label htmlFor="password">
-          Password:
+          
           <input
+            className='username-password-textbox'
             type="password"
             name="password"
             value={password}
@@ -52,7 +61,7 @@ function RegisterForm() {
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
+        <input className="btn-login-register" type="submit" name="submit" value="Register" />
       </div>
     </form>
   );
