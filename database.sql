@@ -25,7 +25,7 @@ CREATE TABLE "ratings" (
 CREATE TABLE "uploads_for_matching" (
 	"id" SERIAL PRIMARY KEY,
 	"average_rating" DOUBLE PRECISION NOT NULL,
-	"total_matchings" INT NOT NULL DEFAULT 0,
+	"total_matches" INT NOT NULL DEFAULT 0,
 	"last_matched_at" TIMESTAMP,
 	"uploaded_at" TIMESTAMP NOT NULL,
 	"user_id" INT NOT NULL REFERENCES "users" ON DELETE CASCADE
