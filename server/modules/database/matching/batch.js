@@ -1,11 +1,11 @@
-const { runSingleMatch } = require("./single");
+const { runMatch } = require("./single");
 
 /**
  * @returns {Promise<number>} Number of matches ran
  */
 const runAllMatches = async () => {
   for (let i = 0; ; i++) {
-    const matchRun = await runSingleMatch();
+    const matchRun = await runMatch();
     if (!matchRun) {
       return i;
     }
