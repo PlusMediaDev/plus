@@ -8,6 +8,7 @@ import reviewMeme from './reviewMeme.saga';
 import uploadSaga from './upload.saga';
 import Tokens from './tokenwon.saga';
 import totalReviews from './totalreviews.saga';
+import totalMatches from './totalmatches.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -25,6 +26,7 @@ export default function* rootSaga() {
     Showcase(),
     reviewMeme(),
     Tokens(),
-    totalReviews()
+    totalReviews(),
+    totalMatches()
   ]);
 }
