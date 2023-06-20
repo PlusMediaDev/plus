@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "bf24bdbd-fb01-46ec-a7f7-abdbc85d4454",
+		"name": "Plus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26721465"
+	},
+	"item": [
+		{
+			"name": "Upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "contentUrl",
+							"value": "https://i.redd.it/ij1282cax9s11.png",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{api}}/uploads",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"uploads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"example\",\n    \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/user/register",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"example\",\n    \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/user/login",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/user/logout",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Uploads for Rating",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/uploads/rating",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"uploads",
+						"rating"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Random Upload",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/uploads/rating/random",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"uploads",
+						"rating",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "10",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{api}}/uploads/rating",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"uploads",
+						"rating"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single Match",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/uploads/matching/match-one",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"uploads",
+						"matching",
+						"match-one"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tokens",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/user/tokens",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Matches",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/uploads/matching/match-all",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"uploads",
+						"matching",
+						"match-all"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
