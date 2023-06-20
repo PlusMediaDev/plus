@@ -10,7 +10,7 @@ function AccountPage() {
   const allReviews = useSelector((store) => store.allReviews);
   console.log('Here is allReviews', allReviews);
   const allMatches = useSelector((store) => store.allMatches);
-  console.log('Here is allReviews', allMatches);
+  console.log('Here is allMatches', allMatches);
 
 
   useEffect(() => {
