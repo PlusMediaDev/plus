@@ -5,6 +5,13 @@ const {
 const pool = require("../../modules/pool");
 const { runAllMatches } = require("../../modules/database/matching/batch");
 const { requiredRatings } = require("../../constants/rating");
+const s3Client = require("../../modules/s3/client");
+const dotenv = require("dotenv");
+const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
+
+dotenv.config()
+
+const awsBucket = process.env["AWS_BUCKET_NAME"];
 
 /**
  * @template {import("pg").QueryResultRow} [R=any]
@@ -112,11 +119,12 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
       throw err;
     }
 
-    /** @type {QueryResult<{ totalRatings: number }>} */
+    /** @type {QueryResult<{ totalRatings: number, s3Key: string? }>} */
     const { rows: uploads } = await pool.query(
       `
         SELECT
-          "total_ratings" AS "totalRatings"
+          "total_ratings" AS "totalRatings",
+          "s3_key" AS "s3Key"
         FROM "uploads_for_rating"
         WHERE "id" = $1
       `,
@@ -126,6 +134,11 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     if (upload && upload.totalRatings < requiredRatings) {
       res.sendStatus(201);
       return;
+    }
+
+    if (upload.s3Key) {
+      const params = { Bucket: awsBucket, Key: upload.s3Key }
+      await s3Client.send(new DeleteObjectCommand(params))
     }
 
     try {

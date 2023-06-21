@@ -3,6 +3,7 @@ const pool = require("../pool");
 /**
  * @typedef NewUpload
  * @property {string} contentUrl
+ * @property {string} [s3Key]
  */
 
 /**
@@ -12,12 +13,16 @@ const pool = require("../pool");
 const newUpload = async (upload, userId) => {
   await pool.query(
     `
-      INSERT INTO "uploads_for_rating"
-        ("user_id", "content_url", "uploaded_at")
+      INSERT INTO "uploads_for_rating" (
+        "user_id",
+        "content_url",
+        "s3_key",
+        "uploaded_at"
+      )
       VALUES
-        ($1, $2, CURRENT_TIMESTAMP);
+        ($1, $2, $3, CURRENT_TIMESTAMP);
     `,
-    [userId, upload.contentUrl]
+    [userId, upload.contentUrl, upload.s3Key]
   );
 };
 

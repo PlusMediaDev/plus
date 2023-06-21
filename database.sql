@@ -9,6 +9,7 @@ CREATE TABLE "users" (
 CREATE TABLE "uploads_for_rating" (
 	"id" SERIAL PRIMARY KEY,
 	"content_url" TEXT NOT NULL,
+	"s3_key" TEXT,
 	"total_ratings" INT NOT NULL DEFAULT 0,
 	"uploaded_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"user_id" INT NOT NULL REFERENCES "users" ON DELETE CASCADE
