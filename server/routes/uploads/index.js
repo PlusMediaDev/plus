@@ -1,3 +1,7 @@
+/**
+ * @typedef {import("../../server")}
+ */
+
 const express = require("express");
 const ratingRouter = require("./rating.router");
 const {
@@ -15,10 +19,6 @@ const { newUpload } = require("../../modules/database/upload");
 dotenv.config();
 
 const bucketName = process.env.AWS_BUCKET_NAME;
-
-/**
- * @typedef {import("../../@types")} Hi
- */
 
 const router = express.Router();
 
@@ -58,17 +58,12 @@ router.post("/", rejectUnauthenticated, uploadMedia.single("uploaded_media"), as
   }
 
   try {
-    /** @type {any} */
-    const file = req.file
-    /** @type {Express.MulterS3.File | undefined} */
-    const mS3File = file;
-
-    if (!mS3File) {
+    if (!req.file) {
       res.sendStatus(500);
       return;
     }
 
-    await newUpload({ contentUrl: mS3File.location, s3Key: mS3File.key }, req.user.id);
+    await newUpload({ contentUrl: req.file.location, s3Key: req.file.key }, req.user.id);
     res.sendStatus(201);
   } catch (err) {
     console.error(err);

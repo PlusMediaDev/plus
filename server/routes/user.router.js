@@ -1,3 +1,7 @@
+/**
+ * @typedef {import("../server")}
+ */
+
 const express = require("express");
 const {
   rejectUnauthenticated,
@@ -18,6 +22,33 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
   res.send(req.user);
 });
+
+router.get(
+  "/can-upload",
+  rejectUnauthenticated,
+  /**
+   * @param {import("express").Request<{}, { canUpload: boolean }>} req
+   * @param {import("express").Response<{ canUpload: boolean }>} res
+   * @returns
+   */
+  (req, res) => {
+    if (!req.user) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const lastUploadedAt = req.user.lastUploadedAt;
+    if (!lastUploadedAt) {
+      res.send({ canUpload: true });
+      return;
+    }
+
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    res.send({ canUpload: lastUploadedAt < today });
+  }
+);
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen

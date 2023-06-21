@@ -9,6 +9,7 @@ import uploadSaga from './upload.saga';
 import Tokens from './tokenwon.saga';
 import totalReviews from './totalreviews.saga';
 import totalMatches from './totalmatches.saga';
+import canUpload from './canupload.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -22,6 +23,7 @@ export default function* rootSaga() {
     loginSaga(), // login saga is now registered
     registrationSaga(),
     userSaga(),
+    canUpload(),
     uploadSaga(),
     Showcase(),
     reviewMeme(),
