@@ -1,5 +1,4 @@
 const express = require("express");
-const pool = require("../../modules/pool");
 const ratingRouter = require("./rating.router");
 const {
   rejectUnauthenticated,
@@ -7,18 +6,24 @@ const {
 const multer = require("multer");
 const { GetObjectCommand } = require("@aws-sdk/client-s3");
 const dotenv = require("dotenv");
-const mediaStorage = require("../../modules/s3/media-storage");
 const s3Client = require("../../modules/s3/client");
 const uploadMedia = require("../../modules/s3/upload-media");
+const matchingRouter = require("./matching.router");
+const { newUpload } = require("../../modules/database/upload");
 
 // Load .env
 dotenv.config();
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 
+/**
+ * @typedef {import("../../@types")}
+ */
+
 const router = express.Router();
 
 router.use("/rating", ratingRouter);
+router.use("/matching", matchingRouter);
 
 // {imagePath: `api/uploads/aws/${mediaFile.filename}` }
 
@@ -63,19 +68,8 @@ router.post("/", rejectUnauthenticated, uploadMedia.single("uploaded_media"), as
       return;
     }
 
-    const query = `
-      INSERT INTO "uploads_for_rating"
-        ("user_id", "content_url", "uploaded_at")
-      VALUES
-        ($1, $2, TO_TIMESTAMP($3));
-    `;
-    // Postgres TO_TIMESTAMP expects seconds
-    await pool.query(query, [
-      req.user.id,
-      mS3File.location,
-      Date.now() / 1000.0,
-    ]);
-    res.send(201);
+    await newUpload({ contentUrl: mS3File.location }, req.user.id);
+    res.sendStatus(201);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);

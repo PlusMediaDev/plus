@@ -22,6 +22,8 @@ Container
   padding: 20px;
 }
 
+
+
 /* --------------------------------------------------------------------------------
 Button
 -------------------------------------------------------------------------------- */
@@ -30,13 +32,45 @@ Button
   display: inline-block;
   padding: 10px 20px;
   border-color: #014041;
-  border-width: 1px 1px 3px;
+  border-width: 1px 1px 1px;
   border-radius: 4px;
-  background-color: #00acb0;
+  background-color: #3100f4;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
+}
+
+.btn-login-register {
+
+  display: inline-block;
+  padding: 10px 40px;
+  border-color: #ffffff;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #2200aa;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+  margin-left: 0px;
+
+}
+
+.username-password-textbox {
+
+  display: inline-block;
+  padding: 7px 40px;
+  border-color: #ffffff;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #cfcfcf71;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+  margin-left: 0px;
+
 }
 
 .btn_sizeMin {
@@ -76,6 +110,38 @@ Button
   color: #008183;
 }
 
+.upload-button {
+
+  display: inline-block;
+  padding: 5px 10px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f49f;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+
+}
+
+.file-button {
+
+  display: inline-block;
+  padding: 5px 10px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f49f;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+
+  margin-left: 0px;
+
+}
+
 /* --------------------------------------------------------------------------------
 Alert
 -------------------------------------------------------------------------------- */
@@ -94,6 +160,18 @@ Alert
 /* --------------------------------------------------------------------------------
 Form Treatment
 -------------------------------------------------------------------------------- */
+.upload-form {
+
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 25px;
+  margin: 0 auto 20px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+}
 
 .formPanel {
   box-sizing: border-box;
@@ -101,7 +179,7 @@ Form Treatment
   max-width: 100%;
   padding: 25px;
   margin: 0 auto 20px;
-  background-color: #efefef;
+  
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 }
@@ -110,3 +188,42 @@ input {
   margin: 5px;
   margin-bottom: 10px;
 }
+
+/* ================================================================================
+username and password css
+================================================================================ */
+
+.username {
+
+  display: block;
+  text-align: left;
+
+}
+
+.username-h6 {
+
+  color: #cecece;
+  margin: 0;
+
+}
+
+.login-register-title {
+
+  color: #989898;
+}
+
+/* ================================================================================
+Background image
+================================================================================ */
+
+/* .background-image {
+
+  background: url(../../images/redandbluelightningbackground.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  height:844px;
+
+} */

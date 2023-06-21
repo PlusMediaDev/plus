@@ -3,52 +3,91 @@ const {
   rejectUnauthenticated,
 } = require("../../modules/authentication-middleware");
 const pool = require("../../modules/pool");
+const { runAllMatches } = require("../../modules/database/matching/batch");
+const { requiredRatings } = require("../../constants/rating");
+
+/**
+ * @template {import("pg").QueryResultRow} [R=any]
+ * @typedef {import("pg").QueryResult<R>} QueryResult
+ */
 
 const router = express.Router();
 
 /*
- * Hi -Japheth
  * Rate content
  */
 router.post("/", rejectUnauthenticated, async (req, res) => {
+  /**
+   * @typedef RequestBody
+   * @property {number} id
+   * @property {number} rating
+   */
+
+  /**
+   * @param {*} body
+   * @returns {RequestBody | null}
+   */
+  const validate = (body) => {
+    const id = body["id"];
+    const rating = body["rating"];
+
+    if (
+      (typeof id !== "number" && typeof id !== "string") ||
+      (typeof rating !== "number" && typeof rating !== "string")
+    ) {
+      return null;
+    }
+
+    return {
+      id: Number(id),
+      rating: Number(rating),
+    };
+  };
+
+  const body = validate(req.body);
+  if (!body) {
+    res.sendStatus(400);
+    return;
+  }
+
   if (!req.user) {
     res.sendStatus(500);
     return;
   }
 
+  const client = await pool.connect();
   try {
-    const { rows: previousRatings } = await pool.query(
-      `
-        SELECT * FROM "ratings"
-        WHERE "user_id" = $1
-          AND "upload_id" = $2;
-      `,
-      [req.user.id, req.body.id]
-    );
-
-    /* Prevent a user from rating a post multiple times
-     *
-     * The Postgres table also has a unique contraint in
-     * case concurrent requests manage to bypass this check
-     */
-    if (previousRatings.length !== 0) {
-      res.sendStatus(400);
-      return;
-    }
-
-    const client = await pool.connect();
     try {
       await client.query("BEGIN");
-      // Insert new row
-      await client.query(
+      // Insert row
+      const { rowCount: rowsInserted } = await client.query(
         `
           INSERT INTO "ratings"
             ("user_id", "upload_id", "rating")
           VALUES
             ($1, $2, $3)
+          ON CONFLICT ("user_id", "upload_id")
+            DO NOTHING
         `,
-        [req.user.id, req.body.id, req.body.rating]
+        [req.user.id, body.id, body.rating]
       );
+
+      // Upload already rated by user
+      if (rowsInserted === 0) {
+        await pool.query(
+          `
+            UPDATE "ratings"
+            SET "rating" = $3
+            WHERE
+              "user_id" = $1 AND "upload_id" = $2
+          `,
+          [req.user.id, body.id, body.rating]
+        );
+
+        res.sendStatus(200);
+        return;
+      }
+
       // Increment rating count
       await client.query(
         `
@@ -56,14 +95,81 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
           SET "total_ratings" = "total_ratings" + 1
           WHERE "id" = $1
         `,
-        [req.body.id]
+        [body.id]
       );
+
+      await client.query("COMMIT");
+    } catch (err) {
+      await client.query("ROLLBACK");
+
+      const foreignKeyViolationCode = 23503;
+      // Upload doesn't exist
+      if (Number(err.code) === foreignKeyViolationCode) {
+        res.sendStatus(422);
+        return;
+      }
+
+      throw err;
+    }
+
+    /** @type {QueryResult<{ totalRatings: number }>} */
+    const { rows: uploads } = await pool.query(
+      `
+        SELECT
+          "total_ratings" AS "totalRatings"
+        FROM "uploads_for_rating"
+        WHERE "id" = $1
+      `,
+      [body.id]
+    );
+    const upload = uploads[0] || undefined;
+    if (upload && upload.totalRatings < requiredRatings) {
+      res.sendStatus(201);
+      return;
+    }
+
+    try {
+      await client.query("BEGIN");
+
+      // Transfer data for matching
+      await client.query(
+        `
+          INSERT INTO "uploads_for_matching"
+            ("user_id", "average_rating", "uploaded_at")
+          SELECT
+            "uploads_for_rating"."user_id",
+            AVG ("ratings"."rating"),
+            "uploads_for_rating"."uploaded_at"
+          FROM "uploads_for_rating"
+          JOIN "ratings"
+            ON "uploads_for_rating"."id" = "ratings"."upload_id"
+          WHERE "uploads_for_rating"."id" = $1
+          GROUP BY "uploads_for_rating"."id"
+        `,
+        [body.id]
+      );
+
+      // Remove from rating
+      await client.query(
+        `
+          DELETE FROM "uploads_for_rating"
+          WHERE "id" = $1
+        `,
+        [body.id]
+      );
+
       await client.query("COMMIT");
     } catch (err) {
       await client.query("ROLLBACK");
       throw err;
     }
+
     res.sendStatus(201);
+
+    // Run matching
+    const start = performance.now();
+    const matchesRun = await runAllMatches();
+    console.log(`Ran %o matches in %o`, matchesRun, performance.now() - start);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
@@ -74,12 +180,24 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
  * Get random upload to rate
  */
 router.get("/random", rejectUnauthenticated, async (req, res) => {
+  /**
+   * @typedef Upload
+   * @property {number} id
+   * @property {string} contentUrl
+   */
+
+  /**
+   * @typedef ResponseBody
+   * @property {Upload | null} data
+   */
+
   if (!req.user) {
     res.sendStatus(500);
     return;
   }
 
   try {
+    /** @type {QueryResult<Upload>} */
     const { rows: uploads } = await pool.query(
       `
         SELECT
@@ -99,11 +217,46 @@ router.get("/random", rejectUnauthenticated, async (req, res) => {
     const upload = uploads[0] || undefined;
 
     if (upload === undefined) {
-      res.send(null);
+      /** @type {ResponseBody} */
+      const resBody = { data: null };
+      res.send(resBody);
       return;
     }
 
-    res.send(upload);
+    /** @type {ResponseBody} */
+    const resBody = { data: upload };
+    res.send(resBody);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+router.get("/status", rejectUnauthenticated, async (req, res) => {
+  if (!req.user) {
+    res.sendStatus(500);
+    return;
+  }
+
+  /**
+   * @typedef Upload
+   * @property {number} id
+   * @property {number} totalRatings
+   */
+
+  try {
+    /** @type {QueryResult<Upload>} */
+    const { rows: uploads } = await pool.query(
+      `
+        SELECT
+          "id",
+          "total_ratings" AS "totalRatings"
+        FROM "uploads_for_rating"
+        WHERE "user_id" = $1
+      `,
+      [req.user.id]
+    );
+    res.send({ ratingsNeeded: requiredRatings, uploads });
   } catch (err) {
     console.error(err);
     res.sendStatus(500);

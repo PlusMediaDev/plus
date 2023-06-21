@@ -1,65 +1,75 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const encryptLib = require('../modules/encryption');
-const pool = require('../modules/pool');
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const encryptLib = require("../modules/encryption");
+const pool = require("../modules/pool");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  pool
-    .query('SELECT * FROM "users" WHERE id = $1', [id])
-    .then((result) => {
-      // Handle Errors
-      const user = result && result.rows && result.rows[0];
+passport.deserializeUser(async (id, done) => {
+  try {
+    /** @type {import("pg").QueryResult<Express.User>} */
+    const { rows: users } = await pool.query(
+      `
+        SELECT
+          "id",
+          "email",
+          "tokens"
+        FROM "users"
+        WHERE "id" = $1
+      `,
+      [id]
+    );
+    const user = users[0] || undefined;
+    // User not found
+    if (!user) {
+      done(null, null);
+      return;
+    }
 
-      if (user) {
-        // user found
-        delete user.password; // remove password so it doesn't get sent
-        // done takes an error (null in this case) and a user
-        done(null, user);
-      } else {
-        // user not found
-        // done takes an error (null in this case) and a user (also null in this case)
-        // this will result in the server returning a 401 status code
-        done(null, null);
-      }
-    })
-    .catch((error) => {
-      console.log('Error with query during deserializing user ', error);
-      // done takes an error (we have one) and a user (null in this case)
-      // this will result in the server returning a 500 status code
-      done(error, null);
-    });
+    done(null, user);
+  } catch (err) {
+    console.error("Failed to deserialize user:", err);
+    done(err, null);
+  }
 });
 
+/**
+ * @param {string} email
+ * @param {string} password
+ * @param {(err: any, user?: Express.User) => void} done
+ */
+const verify = async (email, password, done) => {
+  try {
+    /** @type {import("pg").QueryResult<Express.User & { password: string }>} */
+    const { rows: users } = await pool.query(
+      `
+      SELECT
+        "id",
+        "email",
+        "password",
+        "tokens"
+      FROM "users"
+      WHERE "email" = $1
+    `,
+      [email]
+    );
+    const user = users[0] || undefined;
+
+    if (user && encryptLib.comparePassword(password, user.password)) {
+      // Strip off password
+      done(null, (({ password, ...user }) => user)(user));
+    } else {
+      done(null);
+    }
+  } catch (err) {
+    console.error("User authentication error:", err);
+    done(err);
+  }
+};
+
 // Does actual work of logging in
-passport.use(
-  'local',
-  new LocalStrategy((username, password, done) => {
-    pool
-      .query('SELECT * FROM "users" WHERE email = $1', [username])
-      .then((result) => {
-        const user = result && result.rows && result.rows[0];
-        if (user && encryptLib.comparePassword(password, user.password)) {
-          // All good! Passwords match!
-          // done takes an error (null in this case) and a user
-          done(null, user);
-        } else {
-          // Not good! Username and password do not match.
-          // done takes an error (null in this case) and a user (also null in this case)
-          // this will result in the server returning a 401 status code
-          done(null, null);
-        }
-      })
-      .catch((error) => {
-        console.log('Error with query for user ', error);
-        // done takes an error (we have one) and a user (null in this case)
-        // this will result in the server returning a 500 status code
-        done(error, null);
-      });
-  })
-);
+passport.use("local", new LocalStrategy(verify));
 
 module.exports = passport;

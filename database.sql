@@ -1,14 +1,16 @@
 CREATE TABLE "users" (
 	"id" SERIAL PRIMARY KEY,
 	"email" VARCHAR(254) NOT NULL UNIQUE,
-	"password" VARCHAR(1000) NOT NULL
+	"password" VARCHAR(1000) NOT NULL,
+	"tokens" INT NOT NULL DEFAULT 0
+		CONSTRAINT "tokens_not_negative" CHECK ("tokens" >= 0)
 );
 
 CREATE TABLE "uploads_for_rating" (
 	"id" SERIAL PRIMARY KEY,
 	"content_url" TEXT NOT NULL,
 	"total_ratings" INT NOT NULL DEFAULT 0,
-	"uploaded_at" TIMESTAMP NOT NULL,
+	"uploaded_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"user_id" INT NOT NULL REFERENCES "users" ON DELETE CASCADE
 );
 
@@ -22,10 +24,10 @@ CREATE TABLE "ratings" (
 
 CREATE TABLE "uploads_for_matching" (
 	"id" SERIAL PRIMARY KEY,
-	"average_rating" DOUBLE NOT NULL,
-	"total_matchings" INT NOT NULL DEFAULT 0,
+	"average_rating" DOUBLE PRECISION NOT NULL,
+	"total_matches" INT NOT NULL DEFAULT 0,
 	"last_matched_at" TIMESTAMP,
-	"uploaded_at" TIMESTAMP,
+	"uploaded_at" TIMESTAMP NOT NULL,
 	"user_id" INT NOT NULL REFERENCES "users" ON DELETE CASCADE
 );
 

@@ -22,7 +22,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 
 //Landing Page buttons:
 import ShowcasePage from '../ShowcasePage/ShowcasePage'
-import ReviewPage  from '../ReviewPage/ReviewPage';
+import ReviewPage from '../ReviewPage/ReviewPage';
 import DirectionsPage from '../DirectionsPage/DirectionsPage';
 import AccountPage from '../AccountPage/AccountPage';
 
@@ -40,11 +40,12 @@ function App() {
 
   return (
     <Router>
-      <div>
+
+      <div className='background-image'>
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-          <Redirect exact from="/" to="/home" />
+          <Redirect exact from="/" to="/landingPage" />
 
           {/* Visiting localhost:3000/about will show the about page. */}
           <Route
@@ -97,7 +98,7 @@ function App() {
             exact
             path="/landingPage"
           >
-            <LandingPage/>
+            <LandingPage />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -127,7 +128,7 @@ function App() {
           >
             <DirectionsPage />
           </ProtectedRoute>
-     
+
           <ProtectedRoute
             exact
             path="/accountPage"
@@ -140,7 +141,7 @@ function App() {
             <h1>404</h1>
           </Route>
         </Switch>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Router>
   );
