@@ -17,7 +17,7 @@ dotenv.config();
 const bucketName = process.env.AWS_BUCKET_NAME;
 
 /**
- * @typedef {import("../../@types")}
+ * @typedef {import("../../@types")} Hi
  */
 
 const router = express.Router();
@@ -68,7 +68,7 @@ router.post("/", rejectUnauthenticated, uploadMedia.single("uploaded_media"), as
       return;
     }
 
-    await newUpload({ contentUrl: mS3File.location }, req.user.id);
+    await newUpload({ contentUrl: mS3File.location, s3Key: mS3File.key }, req.user.id);
     res.sendStatus(201);
   } catch (err) {
     console.error(err);

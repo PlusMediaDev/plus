@@ -2,6 +2,8 @@
  * @typedef {import("pg").ClientBase} ClientBase
  */
 
+const { addWinner } = require("../../testing/winnings");
+
 /**
  * @template {import("pg").QueryResultRow} [R=any]
  * @typedef {import("pg").QueryResult<R>} QueryResult
@@ -53,6 +55,9 @@ const pruneWinning = async (client, upload, matchLimit) => {
     `,
     [upload.userId, upload.tokens]
   );
+
+  addWinner(upload.tokens);
+
   return true;
 };
 
