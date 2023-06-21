@@ -32,7 +32,7 @@ function DirectionsPage() {
 
     return (
         <div
-        className="directions"
+        className="login-register-title"
         onTouchStart={touchStart}
         onTouchEnd={touchEnd}>
             <h1>Directions Page</h1>

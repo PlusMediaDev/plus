@@ -63,6 +63,7 @@ function AccountPage() {
   const matchesProgress = (currentMatches / totalMatches) * 100;
 
   return (
+
     <div className="directions" onTouchStart={touchStart} onTouchEnd={touchEnd}>
       <h1>Account Page</h1>
       {allReviews && reviewProgress < 100 ? (
@@ -94,6 +95,7 @@ function AccountPage() {
       )}
     </div>
   );
+
 }
 
 export default AccountPage;
