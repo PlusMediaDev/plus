@@ -20,16 +20,6 @@ const router = express.Router();
 
 router.use("/rating", ratingRouter);
 
-//For AWS post:
-router.post("/aws", uploadMedia.single("uploaded_media"), (req, res) => {
-  /** @type {any} */
-  const file = req.file
-  /** @type {Express.MulterS3.File | undefined} */
-  const mS3File = file
-  console.log(mS3File?.location);
-  res.sendStatus(200);
-});
-
 // {imagePath: `api/uploads/aws/${mediaFile.filename}` }
 
 //********* FIGURE OUT GET REQUEST ********/
@@ -56,13 +46,23 @@ function getFileStream(fileKey) {
 /*
  * Upload content
  */
-router.post("/", rejectUnauthenticated, async (req, res) => {
+router.post("/", rejectUnauthenticated, uploadMedia.single("uploaded_media"), async (req, res) => {
   if (!req.user) {
     res.sendStatus(500);
     return;
   }
 
   try {
+    /** @type {any} */
+    const file = req.file
+    /** @type {Express.MulterS3.File | undefined} */
+    const mS3File = file;
+
+    if (!mS3File) {
+      res.sendStatus(500);
+      return;
+    }
+
     const query = `
       INSERT INTO "uploads_for_rating"
         ("user_id", "content_url", "uploaded_at")
@@ -72,7 +72,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     // Postgres TO_TIMESTAMP expects seconds
     await pool.query(query, [
       req.user.id,
-      req.body.contentUrl,
+      mS3File.location,
       Date.now() / 1000.0,
     ]);
     res.send(201);
@@ -80,10 +80,6 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     console.error(err);
     res.sendStatus(500);
   }
-});
-
-router.post("/", (req, res) => {
-  // POST route code here
 });
 
 module.exports = router;

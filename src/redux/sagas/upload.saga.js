@@ -20,13 +20,13 @@ function* uploadMedia(action) {
     };
 
     // Post media to ASW:
-    const response = yield axios.post('api/uploads/aws', formData, config);
+    const response = yield axios.post('api/uploads/', formData, config);
 
     // console.log("this is the response from the aws media post", response.data );
 
     //Once the media file is uploaded to S3, get the identifiying key for that file in the 
     //s3 bucket:
-    yield axios.get(`api/uploads/aws/${response.data}`);
+    // yield axios.get(`api/uploads/aws/${response.data}`);
 
   } catch (error) {
     console.log('Error with uploading media:', error);
