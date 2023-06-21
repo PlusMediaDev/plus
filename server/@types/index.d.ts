@@ -5,6 +5,9 @@ declare global {
       email: string;
       tokens: number;
     }
+    interface Request {
+      file: Express.Multer.File & Express.MulterS3.File;
+    }
   }
 }
 
