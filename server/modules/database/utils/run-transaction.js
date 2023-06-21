@@ -1,15 +1,9 @@
+const never = require("../../utils/never");
+
 /**
  * @typedef {import("pg").ClientBase} ClientBase
  * @typedef {import("pg").Pool} Pool
  */
-
-/**
- * @param {never} never
- * @returns {never}
- */
-const never = (never) => {
-  throw new Error("Code should be unreachable");
-}
 
 /**
  * @template T

@@ -3,6 +3,8 @@ const {
   rejectUnauthenticated,
 } = require("../../modules/authentication-middleware");
 const pool = require("../../modules/pool");
+const { runAllMatches } = require("../../modules/database/matching/batch");
+const { requiredRatings } = require("../../constants/rating");
 
 /**
  * @template {import("pg").QueryResultRow} [R=any]
@@ -57,35 +59,51 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
   try {
     try {
       await client.query("BEGIN");
-      // Insert or update row
-      const { command } = await client.query(
+      // Insert row
+      const { rowCount: rowsInserted } = await client.query(
         `
           INSERT INTO "ratings"
             ("user_id", "upload_id", "rating")
           VALUES
             ($1, $2, $3)
           ON CONFLICT ("user_id", "upload_id")
-            DO UPDATE SET "rating" = EXCLUDED."rating"
+            DO NOTHING
         `,
         [req.user.id, body.id, body.rating]
       );
 
-      if (command === "INSERT") {
-        // Increment rating count
-        await client.query(
+      // Upload already rated by user
+      if (rowsInserted === 0) {
+        await pool.query(
           `
+            UPDATE "ratings"
+            SET "rating" = $3
+            WHERE
+              "user_id" = $1 AND "upload_id" = $2
+          `,
+          [req.user.id, body.id, body.rating]
+        );
+
+        res.sendStatus(200);
+        return;
+      }
+
+      // Increment rating count
+      await client.query(
+        `
           UPDATE "uploads_for_rating"
           SET "total_ratings" = "total_ratings" + 1
           WHERE "id" = $1
         `,
-          [body.id]
-        );
-      }
+        [body.id]
+      );
+
       await client.query("COMMIT");
     } catch (err) {
       await client.query("ROLLBACK");
 
       const foreignKeyViolationCode = 23503;
+      // Upload doesn't exist
       if (Number(err.code) === foreignKeyViolationCode) {
         res.sendStatus(422);
         return;
@@ -105,9 +123,8 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
       [body.id]
     );
     const upload = uploads[0] || undefined;
-    const maxRatings = 50;
-    if (upload && upload.totalRatings < maxRatings) {
-      res.sendStatus(200);
+    if (upload && upload.totalRatings < requiredRatings) {
+      res.sendStatus(201);
       return;
     }
 
@@ -148,6 +165,11 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     }
 
     res.sendStatus(201);
+
+    // Run matching
+    const start = performance.now();
+    const matchesRun = await runAllMatches();
+    console.log(`Ran %o matches in %o`, matchesRun, performance.now() - start);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
@@ -234,9 +256,7 @@ router.get("/status", rejectUnauthenticated, async (req, res) => {
       `,
       [req.user.id]
     );
-    // TODO: configure centrally somewhere
-    const ratingsNeeded = 50;
-    res.send({ ratingsNeeded, uploads });
+    res.send({ ratingsNeeded: requiredRatings, uploads });
   } catch (err) {
     console.error(err);
     res.sendStatus(500);

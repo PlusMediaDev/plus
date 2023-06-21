@@ -7,6 +7,8 @@ import reviewMeme from './reviewMeme.saga';
 //LandingPage button related sagas:
 import uploadSaga from './upload.saga';
 import Tokens from './tokenwon.saga';
+import totalReviews from './totalreviews.saga';
+import totalMatches from './totalmatches.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -23,6 +25,8 @@ export default function* rootSaga() {
     uploadSaga(),
     Showcase(),
     reviewMeme(),
-    Tokens()
+    Tokens(),
+    totalReviews(),
+    totalMatches()
   ]);
 }

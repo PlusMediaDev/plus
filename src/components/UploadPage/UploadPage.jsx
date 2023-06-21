@@ -1,23 +1,34 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
-
+import FormData from 'form-data';
 
 function UploadPage() {
 
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [media, setMedia] = useState(null);
+    const [file, setFile] = useState();
 
     //Dispatch function for a SAGA to take user input media file and send it to AWS:
-    function uploadMedia() {
-        console.log('This is current state of media', media);
+
+    function handleChange(event) {
+        event.preventDefault();
+        setFile(event.target.files[0])
+    }
+    // file.name
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log('You are in handleSubmit function!');
+        console.log('This is current state of file', file);
+        const formData = new FormData();
+        formData.append('uploaded_media', file, file.name);
+        // formData.append('file', file.name);
+
+        console.log('This is current state of formData', formData);
         dispatch({
-            type: 'SAGA_UPLOAD',
-            payload: {media: media}
+            type: 'SAGA_UPLOAD_MEDIA',
+            payload: formData
         })
     }
 
@@ -46,21 +57,19 @@ function UploadPage() {
   };
 
     return (
-        
         <div
         className="upload"
         onTouchStart={touchStart}
         onTouchEnd={touchEnd}
         >
             <h1 className='login-register-title'>Upload Page</h1>
-            <form className='upload-form'>
-                <input className='file-button' type="file" onChange={(event) => {setMedia(event.target.value)}} />
-                <button className='upload-button' onClick={uploadMedia}>
+            <form className='upload-form' onSubmit={handleSubmit}>
+                <input className='file-button' type="file" onChange={handleChange} />
+                <button type="submit" className='upload-button'>
                     Upload Media
                 </button>
             </form>
         </div>
-
     )
 }
 
