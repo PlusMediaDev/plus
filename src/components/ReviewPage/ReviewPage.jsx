@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import './ReviewPage.css';
 
 function ReviewPage() {
 
@@ -34,8 +35,8 @@ function ReviewPage() {
   };
 
   return (
-    <div>
-      <div>
+    <div className="container">
+      <div className="button-container">
         {renderButtons()}
       </div>
     </div>
