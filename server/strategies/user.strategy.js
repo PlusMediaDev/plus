@@ -15,7 +15,8 @@ passport.deserializeUser(async (id, done) => {
         SELECT
           "id",
           "email",
-          "tokens"
+          "tokens",
+          "last_uploaded_at" AS "lastUploadedAt"
         FROM "users"
         WHERE "id" = $1
       `,
@@ -45,14 +46,15 @@ const verify = async (email, password, done) => {
     /** @type {import("pg").QueryResult<Express.User & { password: string }>} */
     const { rows: users } = await pool.query(
       `
-      SELECT
-        "id",
-        "email",
-        "password",
-        "tokens"
-      FROM "users"
-      WHERE "email" = $1
-    `,
+        SELECT
+          "id",
+          "email",
+          "password",
+          "tokens",
+          "last_uploaded_at" AS "lastUploadedAt"
+        FROM "users"
+        WHERE "email" = $1
+      `,
       [email]
     );
     const user = users[0] || undefined;

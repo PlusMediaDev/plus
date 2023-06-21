@@ -3,6 +3,10 @@ const bodyParser = require('body-parser');
 const uploadsRouter = require('./routes/uploads');
 require('dotenv').config();
 
+/**
+ * @typedef {import("./server")}
+ */
+
 const app = express();
 
 const sessionMiddleware = require('./modules/session-middleware');
