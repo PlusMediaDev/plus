@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
-
+import plusLogo from '../../images/Plus-App-Prime-Client-Project-Sample-1.png';
 function Nav() {
   const user = useSelector((store) => store.user);
 
@@ -21,16 +21,18 @@ function Nav() {
         </>
       )}
 
-      <Link to="/landingPage">
-        <h2 className="nav-title">✚</h2>
-      </Link>
+      
+        <Link to='landingPage'>
+          <h2 className="nav-title">✚</h2>
+          </Link>
+     
 
       {user.id && (
         <>
           <LogOutButton className="navLinkLogOut" />
         </>
       )}
-      
+
 
 
     </div>

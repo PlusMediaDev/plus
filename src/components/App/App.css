@@ -120,7 +120,9 @@ Button
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
+  text-align: center;
 
+  justify-content: center;
 }
 
 .file-button {
@@ -259,6 +261,8 @@ username and password css
 
   color: #989898;
   text-align: center;
+  margin-top: 0;
+  padding-top: 30px;
 
 }
 
@@ -266,14 +270,11 @@ username and password css
 Background image
 ================================================================================ */
 
-/* .background-image {
+.background-image {
 
-  background: url(../../images/redandbluelightningbackground.jpg) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  height: 1000px;
+  background-color: #ebedff;
+  background-image: url('../../images/redandbluespheres.jpg');
+  
 
-  height:844px;
-
-} */
+}
