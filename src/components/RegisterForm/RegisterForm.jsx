@@ -30,7 +30,7 @@ function RegisterForm() {
       )}
       <div>
 
-      <h6 className='username-h6'>Username</h6>
+      <h4 className='username-h6'>Email</h4>
 
         <label htmlFor="username">
           
@@ -46,7 +46,7 @@ function RegisterForm() {
       </div>
       <div>
 
-      <h6 className='username-h6'>Password</h6>
+      <h4 className='username-h6'>Password</h4>
 
         <label htmlFor="password">
           

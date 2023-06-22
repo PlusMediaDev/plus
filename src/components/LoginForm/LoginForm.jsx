@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+function LoginForm(props) {
+
+  const username=props.username;
+  const setUsername=props.setUsername
+  const password=props.password
+  const setPassword=props.setPassword
+  
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
 
@@ -36,7 +40,7 @@ function LoginForm() {
       )}
       <div className='username-div'>
 
-        <h6 className='username-h6'>Username</h6>
+        <h4 className='username-h6'>Email</h4>
 
         <label htmlFor="username">
 
@@ -51,7 +55,7 @@ function LoginForm() {
         </label>
       </div>
       <div>
-        <h6 className='username-h6'>Password</h6>
+        <h4 className='username-h6'>Password</h4>
 
         <label htmlFor="password">
 
