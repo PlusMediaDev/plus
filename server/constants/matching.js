@@ -1,4 +1,4 @@
 module.exports = {
-  matchLimit: 50,
+  matchLimit: 200,
   matchTransferAmount: 1,
 };

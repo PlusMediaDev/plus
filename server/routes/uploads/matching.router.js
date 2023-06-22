@@ -6,6 +6,7 @@ const { matchLimit } = require("../../constants/matching");
 const {
   rejectUnauthenticated,
 } = require("../../modules/authentication-middleware");
+const { clearWinnings, averageWinnings, totalWinners, medianWinnings } = require("../../modules/database/testing/winnings");
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.post("/match-one", async (_, res) => {
   res.sendStatus(200);
 
   try {
-    console.log("Running match . . .")
+    console.log("Running match . . .");
     const matchCompleted = await runMatch();
     console.log(matchCompleted ? "Match completed" : "No match");
   } catch (err) {
@@ -25,7 +26,8 @@ router.post("/match-all", async (_, res) => {
   res.sendStatus(200);
 
   try {
-    console.log("Running matches . . .")
+    clearWinnings();
+    console.log("Running matches . . .");
     const start = performance.now();
     const matchesRun = await runAllMatches();
     const duration = performance.now() - start;
@@ -35,6 +37,9 @@ router.post("/match-all", async (_, res) => {
       matchesRun === 1 ? "match" : "matches",
       Math.floor(duration * 1000) / 1000
     );
+    console.log("Total winners:", totalWinners())
+    console.log("Average winnings:", averageWinnings());
+    console.log("Median winnings:", medianWinnings());
   } catch (err) {
     console.error(err);
   }
