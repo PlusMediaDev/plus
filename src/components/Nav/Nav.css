@@ -5,9 +5,11 @@
   align-items: center;
 
   margin: 0 0 0px;
-  background-color: #98befba7;
-  overflow: hidden;
-  
+  background: linear-gradient(90deg, rgb(145, 11, 11) 44%, rgb(8, 24, 144) 89%);
+  /* overflow: visible; */
+  position: sticky;
+  top: 0;
+
 }
 
 .nav a {
@@ -17,12 +19,16 @@
 .nav-title {
   font-size: 24px;
   font-weight: 700;
-  color: #3100f4;
+  color: #ffffff;
   margin: 0;
   align-content: center;
   text-align: center;
   align-items: center;
   justify-content: center;
+
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+
   
 }
 

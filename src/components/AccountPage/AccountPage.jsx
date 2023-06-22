@@ -48,8 +48,9 @@ function AccountPage() {
   if (allReviews === null || !allReviews.uploads || allReviews.uploads.length === 0) {
     return (
       <>
-      <p>Here are your tokens won: {tokensWon}</p>
-      <p>No upload in progress</p>
+      <h1 className='formPanelPages'>Your Tokens You Won!</h1>
+          <p className='tokensWon'>{tokensWon}</p>
+      <h3 className='formPanelPages'>No upload in progress {';('}</h3>
       </>
     );
   }
@@ -68,7 +69,8 @@ function AccountPage() {
       <h1>Account Page</h1>
       {allReviews && reviewProgress < 100 ? (
         <>
-          <p>Here are your tokens won: {tokensWon}</p>
+          <p>Your Tokens You Won!</p>
+          <p>{tokensWon}</p>
           <p>Review Progress: {reviewProgress}%</p>
           <div className="progress-bar">
             <div className="progress" style={{ width: `${reviewProgress}%` }}></div>
@@ -78,7 +80,8 @@ function AccountPage() {
         <>
           {allReviews && reviewProgress === 100 && matchesProgress < 100 ? (
             <>
-              <p>Here are your tokens won: {tokensWon}</p>
+              <p>Your Tokens You Won!</p>
+              <p> {tokensWon}</p>
               <p>Meme has been rated, please wait for the meme to be matched</p>
               <p>Automated Progress: {matchesProgress}%</p>
               <div className="progress-bar">
@@ -87,7 +90,8 @@ function AccountPage() {
             </>
           ) : (
             <>
-            <p>Here are your tokens won: {tokensWon}</p>
+            <p>Your Tokens You Won!</p>
+            <p>{tokensWon}</p>
             <p>No upload in progress</p>
             </>
           )}
