@@ -1,32 +1,57 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import './AccountPage.css';
+import React, { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import "./AccountPage.css";
 
 function AccountPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const tokensWon = useSelector((store) => store.tokenWon);
   const allReviews = useSelector((store) => store.allReviews);
-  console.log('Here is allReviews', allReviews);
+  console.log("Here is allReviews", allReviews);
   const allMatches = useSelector((store) => store.allMatches);
-  console.log('Here is allMatches', allMatches);
+  console.log("Here is allMatches", allMatches);
 
+  const reviewProgress = useMemo(() => {
+    if (!allReviews) {
+      return null;
+    }
+
+    const lastUpload = allReviews.uploads[0] || null;
+    if (!lastUpload) {
+      return null;
+    }
+
+    return (lastUpload.totalRatings / allReviews.ratingsNeeded) * 100;
+  }, [allReviews]);
+
+  const matchProgress = useMemo(() => {
+    if (!allMatches) {
+      return null;
+    }
+
+    const lastUpload = allMatches.uploads[0] || null;
+    if (!lastUpload) {
+      return null;
+    }
+
+    return (lastUpload.totalMatches / allMatches.matchLimit) * 100;
+  }, [allMatches]);
 
   useEffect(() => {
     dispatch({
-      type: 'SAGA_GET_TOKENS_WON'
+      type: "SAGA_GET_TOKENS_WON",
     });
     dispatch({
-      type: 'SAGA_GET_TOTAL_REVIEWS'
+      type: "SAGA_GET_TOTAL_REVIEWS",
     });
     dispatch({
-      type: 'SAGA_GET_TOTAL_MATCHES'
+      type: "SAGA_GET_TOTAL_MATCHES",
     });
   }, []);
 
   const handleSwipeLeftToRight = () => {
-    history.push('/landingPage');
+    history.push("/landingPage");
   };
 
   let startX;
@@ -45,58 +70,69 @@ function AccountPage() {
     }
   };
 
-  if (allReviews === null || !allReviews.uploads || allReviews.uploads.length === 0) {
+  const showTokensWon = () => {
     return (
-      <>
-      <p>Here are your tokens won: {tokensWon}</p>
-      <p>No upload in progress</p>
-      </>
+      <div>
+        <h2>You've Won</h2>
+        <h1>{tokensWon}</h1>
+        <h2>Tokens!</h2>
+      </div>
     );
-  }
+  };
 
-  const totalReviews = allReviews.ratingsNeeded;
-  const currentReviews = allReviews.uploads[0]?.totalRatings;
-  const reviewProgress = (currentReviews / totalReviews) * 100;
+  /**
+   * @param {number} progress
+   */
+  const showReviewProgress = (progress) => {
+    return (
+      <div>
+        <p>Review Progress: {progress}%</p>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${progress}%` }}></div>
+        </div>
+      </div>
+    );
+  };
 
-  const totalMatches = allMatches.matchLimit;
-  const currentMatches = allMatches.uploads[0]?.totalMatches;
-  const matchesProgress = (currentMatches / totalMatches) * 100;
+  /**
+   * @param {number} progress
+   */
+  const showMatchProgress = (progress) => {
+    return (
+      <div>
+        <p>Automated Progress: {progress}%</p>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${progress}%` }}></div>
+        </div>
+      </div>
+    );
+  };
+
+  const showProgress = () => {
+    if (matchProgress !== null) {
+      return showMatchProgress(matchProgress);
+    } else if (reviewProgress !== null) {
+      return showReviewProgress(reviewProgress);
+    } else {
+      return (
+        <div>
+          <p>
+            Looks like you don't have any in-progress uploads. Make one if you
+            haven't already today!
+          </p>
+        </div>
+      );
+    }
+  };
 
   return (
-
     <div className="directions" onTouchStart={touchStart} onTouchEnd={touchEnd}>
       <h1>Account Page</h1>
-      {allReviews && reviewProgress < 100 ? (
-        <>
-          <p>Here are your tokens won: {tokensWon}</p>
-          <p>Review Progress: {reviewProgress}%</p>
-          <div className="progress-bar">
-            <div className="progress" style={{ width: `${reviewProgress}%` }}></div>
-          </div>
-        </>
-      ) : (
-        <>
-          {allReviews && reviewProgress === 100 && matchesProgress < 100 ? (
-            <>
-              <p>Here are your tokens won: {tokensWon}</p>
-              <p>Meme has been rated, please wait for the meme to be matched</p>
-              <p>Automated Progress: {matchesProgress}%</p>
-              <div className="progress-bar">
-                <div className="progress" style={{ width: `${matchesProgress}%` }}></div>
-              </div>
-            </>
-          ) : (
-            <>
-            <p>Here are your tokens won: {tokensWon}</p>
-            <p>No upload in progress</p>
-            </>
-          )}
-        </>
-      )}
+      <p>Here are your tokens won: {tokensWon}</p>
+      {showTokensWon()}
+      {showProgress()}
     </div>
   );
-
 }
 
 export default AccountPage;
-
