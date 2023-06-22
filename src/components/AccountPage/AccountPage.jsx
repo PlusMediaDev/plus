@@ -8,9 +8,7 @@ function AccountPage() {
   const dispatch = useDispatch();
   const tokensWon = useSelector((store) => store.tokenWon);
   const allReviews = useSelector((store) => store.allReviews);
-  console.log("Here is allReviews", allReviews);
   const allMatches = useSelector((store) => store.allMatches);
-  console.log("Here is allMatches", allMatches);
 
   const reviewProgress = useMemo(() => {
     if (!allReviews) {

@@ -9,8 +9,26 @@ const addWinner = (tokens) => {
 
 const totalWinners = () => winnings.length;
 
-const averageWinnings = () =>
-  winnings.reduce((total, winnings) => total + winnings, 0) / winnings.length;
+const averageWinnings = () => {
+  if (winnings.length < 1) {
+    return null;
+  }
+
+  return (
+    winnings.reduce((total, winnings) => {
+      return total + winnings;
+    }, 0) / winnings.length
+  );
+};
+
+const medianWinnings = () => {
+  if (winnings.length < 1) {
+    return null;
+  }
+
+  const middle = Math.floor(winnings.length / 2);
+  return winnings[middle];
+};
 
 const clearWinnings = () => {
   winnings.splice(0);
@@ -20,5 +38,6 @@ module.exports = {
   addWinner,
   totalWinners,
   averageWinnings,
+  medianWinnings,
   clearWinnings,
 };
