@@ -71,9 +71,9 @@ function AccountPage() {
   const showTokensWon = () => {
     return (
       <div>
-        <h2>You've Won</h2>
-        <h1>{tokensWon}</h1>
-        <h2>Tokens!</h2>
+        <h1 className='formPanelPages'>Your Tokens You Won!</h1>
+        <p className='tokensWon'>{tokensWon}</p>
+        
       </div>
     );
   };
@@ -83,12 +83,13 @@ function AccountPage() {
    */
   const showReviewProgress = (progress) => {
     return (
-      <div>
+      <div className="formPanelPages">
         <p>Review Progress: {progress}%</p>
         <div className="progress-bar">
           <div className="progress" style={{ width: `${progress}%` }}></div>
         </div>
       </div>
+
     );
   };
 
@@ -113,22 +114,19 @@ function AccountPage() {
       return showReviewProgress(reviewProgress);
     } else {
       return (
-        <div>
-          <p>
-            Looks like you don't have any in-progress uploads. Make one if you
-            haven't already today!
-          </p>
-        </div>
+        
+          <h3 className='formPanelPages'>No upload in progress {';('}</h3>
+        
       );
     }
   };
 
   return (
     <div className="directions" onTouchStart={touchStart} onTouchEnd={touchEnd}>
-      <h1>Account Page</h1>
-      <p>Here are your tokens won: {tokensWon}</p>
+      
       {showTokensWon()}
       {showProgress()}
+
     </div>
   );
 }

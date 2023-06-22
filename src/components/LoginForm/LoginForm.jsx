@@ -40,7 +40,7 @@ function LoginForm(props) {
       )}
       <div className='username-div'>
 
-        <h6 className='username-h6'>Username</h6>
+        <h4 className='username-h6'>Email</h4>
 
         <label htmlFor="username">
 
@@ -55,7 +55,7 @@ function LoginForm(props) {
         </label>
       </div>
       <div>
-        <h6 className='username-h6'>Password</h6>
+        <h4 className='username-h6'>Password</h4>
 
         <label htmlFor="password">
 

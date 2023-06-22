@@ -48,7 +48,7 @@ Button
   border-color: #ffffff;
   border-width: 1px 1px 1px;
   border-radius: 4px;
-  background-color: #2200aa;
+  background-color: #000000;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -61,10 +61,10 @@ Button
 
   display: inline-block;
   padding: 7px 40px;
-  border-color: #ffffff;
+  border-color: #ffcccc;
   border-width: 1px 1px 1px;
   border-radius: 4px;
-  background-color: #cfcfcf71;
+  background-color: #ffffffab;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -101,7 +101,10 @@ Button
   border-radius: 0;
   background: none;
   font: inherit;
-  color: #444;
+  color: #ffffff;
+  
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: rgb(17, 249, 129);
 }
 
 .btn_asLink:hover {
@@ -186,19 +189,19 @@ Form Treatment
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 }
 
-.formPanelAccountPage {
+.formPanelPages {
 
   box-sizing: border-box;
   width: 400px;
   max-width: 100%;
   padding: 25px;
-  margin: 60px auto 20px;
+  margin: 0 auto 20px;
   
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 
   color: #444;
-  background-color: #d7dcff;
+  background-color: #ffffffab;
 
   text-align: center;
 }
@@ -209,7 +212,7 @@ Form Treatment
   width: 400px;
   max-width: 100%;
   padding: 50px;
-  margin: 100px auto 20px;
+  margin: 40px auto 100px;
   
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
@@ -254,14 +257,14 @@ username and password css
 
 .username-h6 {
 
-  color: #cecece;
+  color: #000000;
   margin: 0;
 
 }
 
 .login-register-title {
 
-  color: #989898;
+  color: #000000;
   text-align: center;
   margin-top: 0;
   padding-top: 30px;
@@ -276,7 +279,12 @@ Background image
 
   height: 1000px;
   background-color: #ebedff;
-  background-image: url('../../images/redandbluespheres.jpg');
-  
+  background: url('../../images/redandbluespheres.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  overflow: visible;
 
 }

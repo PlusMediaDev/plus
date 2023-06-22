@@ -40,6 +40,7 @@ function App() {
 
   return (
     <Router>
+      <div>
       <Nav />
       <div className='background-image'>
         
@@ -147,7 +148,7 @@ function App() {
          
 
       </div>
-      
+      </div>
     </Router>
   );
 }
