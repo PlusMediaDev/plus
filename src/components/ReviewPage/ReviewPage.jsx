@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import './ReviewPage.css';
+import '../UniversalCss.css';
 
 function ReviewPage() {
 
@@ -26,7 +26,7 @@ function ReviewPage() {
     const buttons = [];
     for (let i = 1; i <= 10; i++) {
       buttons.push(
-        <button key={i} onClick={() => handleButtonClick(i)}>
+        <button className="review-buttons" key={i} onClick={() => handleButtonClick(i)}>
           {i}
         </button>
       );

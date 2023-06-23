@@ -48,7 +48,7 @@ function UploadPage() {
   function canUploadCondtionalRender() {
     if (canUpload) {
       return (
-        <form className="upload-form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <input className="file-button" type="file" onChange={handleChange} />
           <button type="submit" className="upload-button">
             Upload Media
@@ -84,7 +84,6 @@ function UploadPage() {
 
   return (
     <div className="uploadContianer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
-      {/* <h1 className="login-register-title">Upload Page</h1> */}
       {canUploadCondtionalRender()}
     </div>
   );

@@ -45,11 +45,11 @@ Button
 
   display: inline-block;
   padding: 10px 40px;
-  border-color: #ffffff;
+  border-color: #8387ff;
   border-width: 1px 1px 1px;
   border-radius: 4px;
-  background-color: #000000;
-  color: #f8f8f8;
+  background-color: #ffffff;
+  color: #000000;
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
@@ -102,9 +102,9 @@ Button
   background: none;
   font: inherit;
   color: #ffffff;
-  
+
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: rgb(17, 249, 129);
+  -webkit-text-stroke-color: rgb(255, 255, 255);
 }
 
 .btn_asLink:hover {
@@ -120,7 +120,7 @@ Button
   border-color: #000000;
   border-width: 1px 1px 1px;
   border-radius: 4px;
-  background-color: #3100f49f;
+  background-color: #fa3f3f9f;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -136,8 +136,8 @@ Button
   padding: 5px 10px;
   border-color: #000000;
   border-width: 1px 1px 1px;
-  border-radius: 4px;
-  background-color: #3100f49f;
+  border-radius: 8px;
+  background-color: #fa3f3f9f;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -172,7 +172,8 @@ Form Treatment
   max-width: 100%;
   padding: 25px;
   margin: 0 auto 20px;
-  
+
+  background-color: #ffffffd0;
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 
@@ -184,7 +185,7 @@ Form Treatment
   max-width: 100%;
   padding: 25px;
   margin: 0 auto 20px;
-  
+
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 } */
@@ -196,7 +197,7 @@ Form Treatment
   max-width: 100%;
   padding: 25px;
   margin: 0 auto 20px;
-  
+
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 
@@ -213,7 +214,7 @@ Form Treatment
   max-width: 100%;
   padding: 50px;
   margin: 40px auto 100px;
-  
+
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 
@@ -231,11 +232,25 @@ Form Treatment
 
 @keyframes tokensWon {
 
-  0%   {background-color: #ff9292;}
-  25%  {background-color: #ffcc95;}
-  50%  {background-color: #fffd96;}
-  75%  {background-color: #8fffb6;}
-  100% {background-color: #d7dcff;}
+  0% {
+    background-color: #ff9292;
+  }
+
+  25% {
+    background-color: #ffcc95;
+  }
+
+  50% {
+    background-color: #fffd96;
+  }
+
+  75% {
+    background-color: #8fffb6;
+  }
+
+  100% {
+    background-color: #d7dcff;
+  }
 
 }
 
@@ -264,10 +279,13 @@ username and password css
 
 .login-register-title {
 
-  color: #000000;
+  color: #ffffff;
   text-align: center;
   margin-top: 0;
   padding-top: 30px;
+
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 
 }
 
@@ -287,6 +305,7 @@ Background image
 
   overflow: visible;
 
+/* <<<<<<< HEAD
 }
 
 .showcase-swipe-div {
@@ -302,4 +321,6 @@ Background image
   min-height: 100vh;
   min-width: 100vw;
   background-color: #008183;
-}
+=======
+>>>>>>> main
+} */
