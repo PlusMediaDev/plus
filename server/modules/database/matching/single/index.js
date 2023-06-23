@@ -60,7 +60,7 @@ const runSingleMatchWithClient = async (client) => {
  */
 const runSingleMatch = async () => {
   const res = await withPoolClient(
-    async () => pool.connect(),
+    () => pool.connect(),
     (client) => runTransaction(client, runSingleMatchWithClient)
   );
   return res;

@@ -84,7 +84,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
 
             // Upload already rated by user
             if (rowsInserted === 0) {
-              await pool.query(
+              await client.query(
                 `
                   UPDATE "ratings"
                   SET "rating" = $3
@@ -121,7 +121,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
         });
 
         /** @type {QueryResult<{ totalRatings: number, s3Key: string? }>} */
-        const { rows: uploads } = await pool.query(
+        const { rows: uploads } = await client.query(
           `
             SELECT
               "total_ratings" AS "totalRatings",
@@ -132,7 +132,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
           [body.id]
         );
         const upload = uploads[0] || undefined;
-        if (upload && upload.totalRatings < requiredRatings) {
+        if (!upload || upload.totalRatings < requiredRatings) {
           return;
         }
 
