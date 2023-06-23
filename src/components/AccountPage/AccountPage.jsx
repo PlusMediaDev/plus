@@ -98,7 +98,7 @@ function AccountPage() {
    */
   const showMatchProgress = (progress) => {
     return (
-      <div>
+      <div className="formPanelPages">
         <p>Automated Progress: {progress}%</p>
         <div className="progress-bar">
           <div className="progress" style={{ width: `${progress}%` }}></div>
