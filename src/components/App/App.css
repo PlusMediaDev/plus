@@ -120,7 +120,7 @@ Button
   border-color: #000000;
   border-width: 1px 1px 1px;
   border-radius: 4px;
-  background-color: #3100f49f;
+  background-color: #fa3f3f9f;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -136,8 +136,8 @@ Button
   padding: 5px 10px;
   border-color: #000000;
   border-width: 1px 1px 1px;
-  border-radius: 4px;
-  background-color: #3100f49f;
+  border-radius: 8px;
+  background-color: #fa3f3f9f;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -173,6 +173,7 @@ Form Treatment
   padding: 25px;
   margin: 0 auto 20px;
 
+  background-color: #ffffffd0;
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 
@@ -282,7 +283,7 @@ username and password css
   text-align: center;
   margin-top: 0;
   padding-top: 30px;
-  
+
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 
