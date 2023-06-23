@@ -51,7 +51,7 @@ function ShowcasePage() {
       {randomMeme ? (
         <img src={randomMeme.contentUrl} alt="Random Meme" />
       ) : (
-        <p className="noMemes">No more random memes available!</p>
+        <p className="formPanelPages">No more random memes available!</p>
       )}
     </div>
   );

@@ -7,9 +7,8 @@ const never = require("../../utils/never");
 
 /**
  * @template T
- * @template {ClientBase | Pool} C
- * @param {C} client
- * @param {(client: C) => Promise<["commit" | "rollback", T]>} fn
+ * @param {ClientBase} client
+ * @param {(client: ClientBase) => Promise<["commit" | "rollback", T]>} fn
  * @returns {Promise<T>}
  */
 const runTransaction = async (client, fn) => {

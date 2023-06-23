@@ -8,8 +8,10 @@ const { requiredRatings } = require("../../constants/rating");
 const s3Client = require("../../modules/s3/client");
 const dotenv = require("dotenv");
 const { DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const withPoolClient = require("../../modules/database/utils/with-pool-client");
+const runTransaction = require("../../modules/database/utils/run-transaction");
 
-dotenv.config()
+dotenv.config();
 
 const awsBucket = process.env["AWS_BUCKET_NAME"];
 
@@ -57,127 +59,122 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     return;
   }
 
-  if (!req.user) {
-    res.sendStatus(500);
-    return;
-  }
-
-  const client = await pool.connect();
   try {
-    try {
-      await client.query("BEGIN");
-      // Insert row
-      const { rowCount: rowsInserted } = await client.query(
-        `
-          INSERT INTO "ratings"
-            ("user_id", "upload_id", "rating")
-          VALUES
-            ($1, $2, $3)
-          ON CONFLICT ("user_id", "upload_id")
-            DO NOTHING
-        `,
-        [req.user.id, body.id, body.rating]
-      );
+    const status = await withPoolClient(
+      () => pool.connect(),
+      async (client) => {
+        await runTransaction(client, async (client) => {
+          if (!req.user) {
+            return ["rollback", (() => {})()];
+          }
 
-      // Upload already rated by user
-      if (rowsInserted === 0) {
-        await pool.query(
+          try {
+            // Insert row
+            const { rowCount: rowsInserted } = await client.query(
+              `
+                INSERT INTO "ratings"
+                  ("user_id", "upload_id", "rating")
+                VALUES
+                  ($1, $2, $3)
+                ON CONFLICT ("user_id", "upload_id")
+                  DO NOTHING
+              `,
+              [req.user.id, body.id, body.rating]
+            );
+
+            // Upload already rated by user
+            if (rowsInserted === 0) {
+              await pool.query(
+                `
+                  UPDATE "ratings"
+                  SET "rating" = $3
+                  WHERE
+                    "user_id" = $1 AND "upload_id" = $2
+                `,
+                [req.user.id, body.id, body.rating]
+              );
+
+              return ["commit", (() => {})()];
+            }
+
+            // Increment rating count
+            await client.query(
+              `
+                UPDATE "uploads_for_rating"
+                SET "total_ratings" = "total_ratings" + 1
+                WHERE "id" = $1
+              `,
+              [body.id]
+            );
+
+            return ["commit", (() => {})()];
+          } catch (err) {
+            const foreignKeyViolationCode = 23503;
+            // Upload doesn't exist
+            if (Number(err.code) === foreignKeyViolationCode) {
+              // res.sendStatus(422);
+              return ["rollback", (() => {})()];
+            }
+
+            throw err;
+          }
+        });
+
+        /** @type {QueryResult<{ totalRatings: number, s3Key: string? }>} */
+        const { rows: uploads } = await pool.query(
           `
-            UPDATE "ratings"
-            SET "rating" = $3
-            WHERE
-              "user_id" = $1 AND "upload_id" = $2
+            SELECT
+              "total_ratings" AS "totalRatings",
+              "s3_key" AS "s3Key"
+            FROM "uploads_for_rating"
+            WHERE "id" = $1
           `,
-          [req.user.id, body.id, body.rating]
+          [body.id]
         );
+        const upload = uploads[0] || undefined;
+        if (upload && upload.totalRatings < requiredRatings) {
+          return;
+        }
 
-        res.sendStatus(200);
-        return;
+        if (upload.s3Key) {
+          const params = { Bucket: awsBucket, Key: upload.s3Key };
+          await s3Client.send(new DeleteObjectCommand(params));
+        }
+
+        await runTransaction(client, async (client) => {
+          // Transfer data for matching
+          await client.query(
+            `
+              INSERT INTO "uploads_for_matching"
+                ("user_id", "average_rating", "uploaded_at")
+              SELECT
+                "uploads_for_rating"."user_id",
+                AVG ("ratings"."rating"),
+                "uploads_for_rating"."uploaded_at"
+              FROM "uploads_for_rating"
+              JOIN "ratings"
+                ON "uploads_for_rating"."id" = "ratings"."upload_id"
+              WHERE "uploads_for_rating"."id" = $1
+              GROUP BY "uploads_for_rating"."id"
+            `,
+            [body.id]
+          );
+
+          // Remove from rating
+          await client.query(
+            `
+              DELETE FROM "uploads_for_rating"
+              WHERE "id" = $1
+            `,
+            [body.id]
+          );
+
+          return ["commit", (() => {})()];
+        });
       }
-
-      // Increment rating count
-      await client.query(
-        `
-          UPDATE "uploads_for_rating"
-          SET "total_ratings" = "total_ratings" + 1
-          WHERE "id" = $1
-        `,
-        [body.id]
-      );
-
-      await client.query("COMMIT");
-    } catch (err) {
-      await client.query("ROLLBACK");
-
-      const foreignKeyViolationCode = 23503;
-      // Upload doesn't exist
-      if (Number(err.code) === foreignKeyViolationCode) {
-        res.sendStatus(422);
-        return;
-      }
-
-      throw err;
-    }
-
-    /** @type {QueryResult<{ totalRatings: number, s3Key: string? }>} */
-    const { rows: uploads } = await pool.query(
-      `
-        SELECT
-          "total_ratings" AS "totalRatings",
-          "s3_key" AS "s3Key"
-        FROM "uploads_for_rating"
-        WHERE "id" = $1
-      `,
-      [body.id]
     );
-    const upload = uploads[0] || undefined;
-    if (upload && upload.totalRatings < requiredRatings) {
-      res.sendStatus(201);
-      return;
-    }
 
-    if (upload.s3Key) {
-      const params = { Bucket: awsBucket, Key: upload.s3Key }
-      await s3Client.send(new DeleteObjectCommand(params))
-    }
-
-    try {
-      await client.query("BEGIN");
-
-      // Transfer data for matching
-      await client.query(
-        `
-          INSERT INTO "uploads_for_matching"
-            ("user_id", "average_rating", "uploaded_at")
-          SELECT
-            "uploads_for_rating"."user_id",
-            AVG ("ratings"."rating"),
-            "uploads_for_rating"."uploaded_at"
-          FROM "uploads_for_rating"
-          JOIN "ratings"
-            ON "uploads_for_rating"."id" = "ratings"."upload_id"
-          WHERE "uploads_for_rating"."id" = $1
-          GROUP BY "uploads_for_rating"."id"
-        `,
-        [body.id]
-      );
-
-      // Remove from rating
-      await client.query(
-        `
-          DELETE FROM "uploads_for_rating"
-          WHERE "id" = $1
-        `,
-        [body.id]
-      );
-
-      await client.query("COMMIT");
-    } catch (err) {
-      await client.query("ROLLBACK");
-      throw err;
-    }
-
-    res.sendStatus(201);
+    res.sendStatus(200);
 
     // Run matching
     const start = performance.now();
