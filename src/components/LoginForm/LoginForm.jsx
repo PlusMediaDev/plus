@@ -29,7 +29,7 @@ function LoginForm(props) {
   }; // end login
 
   return (
-    <form className="formPanel" onSubmit={login}>
+    <form className="loginForm" onSubmit={login}>
 
       <h1 className='login-register-title'>Login</h1>
 

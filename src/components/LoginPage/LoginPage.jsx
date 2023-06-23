@@ -11,15 +11,15 @@ function LoginPage() {
   const [password, setPassword] = useState('');
 
   return (
-    <div>
-      <LoginForm 
+    <div className='loginContainer'>
+      <LoginForm
         username={username}
         setUsername={setUsername}
         password={password}
         setPassword={setPassword}
       />
 
-      <center>
+
         <button
           type="button"
           className="btn btn_asLink"
@@ -29,11 +29,10 @@ function LoginPage() {
         >
           Create an Account
         </button>
-      </center>
+   
       <div className='auto-fill-div'>
-          <button onClick={() => {setUsername("email1"); setPassword("123!")}}>1</button>
-          <button onClick={() => {setUsername("email2"); setPassword("123!")}}>2</button>
-          <button onClick={() => {setUsername("email3"); setPassword("123!")}}>3</button>
+        <button className='auto-fill-btn' onClick={() => { setUsername("email1"); setPassword("123!") }}>1</button>
+        <button className='auto-fill-btn' onClick={() => { setUsername("email2"); setPassword("123!") }}>2</button>
       </div>
     </div>
   );

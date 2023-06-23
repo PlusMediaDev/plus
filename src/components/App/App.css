@@ -178,7 +178,7 @@ Form Treatment
 
 }
 
-.formPanel {
+/* .formPanel {
   box-sizing: border-box;
   width: 400px;
   max-width: 100%;
@@ -187,7 +187,7 @@ Form Treatment
   
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
-}
+} */
 
 .formPanelPages {
 
@@ -277,7 +277,7 @@ Background image
 
 .background-image {
 
-  height: 1000px;
+  min-height: 100%;
   background-color: #ebedff;
   background: url('../../images/redandbluespheres.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -287,4 +287,19 @@ Background image
 
   overflow: visible;
 
+}
+
+.showcase-swipe-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-top: 0%;
+}
+
+
+.appContainer {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: #008183;
 }

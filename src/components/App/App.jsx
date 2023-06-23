@@ -26,7 +26,7 @@ import ReviewPage from '../ReviewPage/ReviewPage';
 import DirectionsPage from '../DirectionsPage/DirectionsPage';
 import AccountPage from '../AccountPage/AccountPage';
 
-import './App.css';
+import '../UniversalCss.css';
 import UploadPage from '../UploadPage/UploadPage';
 
 function App() {
@@ -40,11 +40,11 @@ function App() {
 
   return (
     <Router>
-      <div>
-      <Nav />
-      <div className='background-image'>
-        
-          
+      <div className='appContainer'>
+        <Nav />
+        <div className='mainContainer'>
+
+
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/landingPage" />
@@ -144,10 +144,10 @@ function App() {
             </Route>
           </Switch>
           {/* <Footer /> */}
-          
-         
 
-      </div>
+
+
+        </div>
       </div>
     </Router>
   );

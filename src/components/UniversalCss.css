@@ -1,0 +1,689 @@
+/*react-root*/
+.react-root {
+  height: calc(100vh + 1px);
+  width: 100vw;
+  background-color: green;
+  margin: 0%;
+  overflow: hidden;
+}
+
+/*App defaults*/
+
+  /*appContainer*/
+  .appContainer {
+    height: 100%;
+    width: 100%;
+    background-color: red;
+  }
+  
+  /*navBar*/
+  .navContainer {
+    /* flex box layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 10%;
+    text-align: center;
+  
+    margin: 0 0 0px;
+    background: linear-gradient(90deg, rgb(145, 11, 11) 44%, rgb(8, 24, 144) 89%);
+    /* overflow: visible;
+    position: sticky;
+    top: 0;  */
+  
+  }
+
+  /*mainContainer*/
+  .mainContainer{
+
+    height: 100%;
+    /* background-color: blue; */
+    background: url('../images/redandbluespheres.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+/*   
+    overflow: visible; */
+  
+  }
+
+
+
+
+/*Login page*/
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  /* background-color: gray; */
+  min-height: 100%;
+}
+
+/*Login Form*/
+.loginForm {
+  background: grey;
+  max-width: 90%;
+  max-height: 30%;
+  border: 1px solid black;
+  padding: 2em;
+  margin-top: 10%;
+}
+
+
+.auto-fill-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0%;
+  margin-top: 10%;
+  /* background-color: yellow; */
+  min-width: 100%;
+  min-height: 280px;
+}
+
+.auto-fill-btn {
+  min-width: 50%;
+  min-height: 100%;
+}
+
+.btn_asLink {
+  margin-top: 5%;
+}
+
+
+/*Showcase Page*/
+.reviewContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: yellow;
+}
+
+.button-container {
+  border-radius: 15px;
+  margin-top: 10%;
+  background-color: blue;
+  min-width: 80%;
+  padding: 1em;
+}
+
+
+/*Uploads Page*/
+.uploadContianer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0%;
+  min-height: 100%;
+  /* background-color: red; */
+}
+
+.uploadLimitReachedH1 {
+  color: white;
+  background-color: grey;
+  text-align: center;
+  padding: .25em;
+  margin-top: 10%;
+}
+
+
+
+
+html,
+body,
+#react-root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0px;
+}
+
+img {
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------------
+Container
+-------------------------------------------------------------------------------- */
+
+.container {
+  margin-top: 5%;
+  padding: 20px;
+  background-color: blue;
+}
+
+
+
+/* --------------------------------------------------------------------------------
+Button
+-------------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-color: #014041;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f4;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+}
+
+.btn-login-register {
+
+  display: inline-block;
+  padding: 10px 40px;
+  border-color: #ffffff;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #000000;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+  margin-left: 0px;
+
+}
+
+.username-password-textbox {
+
+  display: inline-block;
+  padding: 7px 40px;
+  border-color: #ffcccc;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #ffffffab;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+  margin-left: 0px;
+
+}
+
+.btn_sizeMin {
+  min-height: 50px;
+  min-width: 100px;
+}
+
+.btn_sizeSm {
+  padding: 10px 15px;
+  font-size: 0.8rem;
+}
+
+.btn_sizeFull {
+  display: block;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #008183;
+  text-decoration: none;
+}
+
+/* This line makes the "Register" and "Login" buttons look like links */
+.btn_asLink {
+  margin-top: 5%;
+  padding: 0;
+  border-width: 0;
+  border-bottom: 1px solid #444;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  color: #ffffff;
+  
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: rgb(17, 249, 129);
+}
+
+.btn_asLink:hover {
+  background-color: transparent;
+  border-color: #008183;
+  color: #008183;
+}
+
+.upload-button {
+
+  display: inline-block;
+  padding: 5px 10px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f49f;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+  text-align: center;
+
+  justify-content: center;
+}
+
+.file-button {
+
+  display: inline-block;
+  padding: 5px 10px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f49f;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+
+  margin-left: 0px;
+
+}
+
+/* --------------------------------------------------------------------------------
+Alert
+-------------------------------------------------------------------------------- */
+
+.alert {
+  box-sizing: border-box;
+  padding: 15px 10px;
+  margin: 15px 0;
+  border: 2px solid #e01616;
+  background-color: #efefef;
+  border-radius: 3px;
+  color: #e01616;
+  font-size: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------------
+Form Treatment
+-------------------------------------------------------------------------------- */
+.upload-form {
+
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 25px;
+  margin: 0 auto 20px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+}
+
+.formPanel {
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 90%;
+  padding: 25px;
+  margin: 0 auto 20px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+}
+
+.formPanelPages {
+
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 25px;
+  margin: 0 auto 20px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+  color: #444;
+  background-color: #ffffffab;
+
+  text-align: center;
+}
+
+.tokensWon {
+
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 50px;
+  margin: 40px auto 100px;
+  
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+  color: #444;
+  background-color: #d7dcff;
+
+  text-align: center;
+  font-size: 200px;
+
+  animation-name: tokensWon;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes tokensWon {
+
+  0%   {background-color: #ff9292;}
+  25%  {background-color: #ffcc95;}
+  50%  {background-color: #fffd96;}
+  75%  {background-color: #8fffb6;}
+  100% {background-color: #d7dcff;}
+
+}
+
+input {
+  margin: 5px;
+  margin-bottom: 10px;
+}
+
+/* ================================================================================
+username and password css
+================================================================================ */
+
+.username {
+
+  display: block;
+  text-align: left;
+
+}
+
+.username-h6 {
+
+  color: #000000;
+  margin: 0;
+
+}
+
+.login-register-title {
+
+  color: #000000;
+  text-align: center;
+  margin-top: 0;
+  padding-top: 30px;
+
+}
+
+/* ================================================================================
+Background image
+================================================================================ */
+
+
+
+.showcaseContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 10%;
+  height: 100%;
+  /* background-color: yellow; */
+}
+
+
+
+
+
+
+  
+  .nav a {
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .nav-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    /* align-content: center; */
+    text-align: center;
+    /* align-items: center;
+    justify-content: center; */
+  
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    
+  }
+  
+  .navLinkProfile {
+    display: inline-block;
+    color: #f2f2f2;
+    background-color: #98befb00;
+    text-align: center;
+    padding: 24px 10px;
+    text-decoration: none;
+    font-size: 15px;
+  
+    /* these last two make the logout button in
+    the nav bar look like another link */
+    border: none;
+    cursor: pointer;
+    outline: 0;
+  
+  }
+  
+  .navLinkLogOut {
+    display: inline-block;
+    color: #f2f2f2;
+    background-color: #98befb00;
+    text-align: center;
+    padding: 24px 10px;
+    text-decoration: none;
+    font-size: 15px;
+  
+    /* these last two make the logout button in
+    the nav bar look like another link */
+    border: none;
+    cursor: pointer;
+    outline: 0;
+  }
+  
+  /* .navLink:hover {
+    background-color: #4a7dce;
+  } */
+
+
+
+
+ 
+
+
+
+
+
+  /*---------------------------------------------------------------------------------
+Landing Page CSS Stuff 
+---------------------------------------------------------------------------------*/
+
+.landing-page-css {
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column; 
+  gap: 10%;
+
+  padding-top: 5%;
+  margin-left: 10%;
+  max-width: 80%;
+  /* margin-bottom: 500px; */
+  margin-top: 0%;
+  min-height: 100%;
+  
+}
+
+.showcase-page-button {
+  /* justify-content: space-evenly;
+  flex-direction: column;  */
+  font-size: 17px;
+  min-width: 100%;
+  /* padding: 39%; */
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #000000 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #ffffffb7;
+
+  color: #000000;
+
+  text-align: center;
+  
+  box-shadow: 0 0 20px ;
+}
+
+.upload-page-button {
+  /* justify-content: space-evenly;
+  flex-direction: column;  */
+  font-size: 17px;
+  min-width: 100%;
+  /* padding: 39%; */
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #000000 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #ffffffb7;
+
+  color: #000000;
+
+  box-shadow: 0 0 20px ;
+}
+
+.directions-page-button {
+  /* justify-content: space-evenly;
+  flex-direction: column;  */
+  font-size: 17px;
+  min-width: 100%;
+  /* padding: 39%; */
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #000000 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #ffffffb7;
+
+  color: #000000;
+
+  box-shadow: 0 0 20px ;
+}
+
+.account-page-button {
+  /* justify-content: space-evenly;
+  flex-direction: column;  */
+  font-size: 17px;
+  min-width: 100%;
+  /* padding: 39%; */
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+
+  border: #000000 2px;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: #ffffffb7;
+
+  color: #000000;
+
+  box-shadow: 0 0 20px ;
+}
+
+
+
+
+/* --------------------------------------------------------------------------------
+Grid
+-------------------------------------------------------------------------------- */
+
+.grid {
+  display: flex;
+  flex: 0 1 auto;
+  /* defaults to 'row' */
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* defaults to 'flex-start' */
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.grid-col {
+  flex: 0 0 auto;
+  padding: 0 0.5rem 0.5rem;
+  box-sizing: border-box;
+}
+
+.grid-col_1 {
+  flex-basis: 8.33333333%;
+  max-width: 8.33333333%;
+}
+
+.grid-col_2 {
+  flex-basis: 16.66666667%;
+  max-width: 16.66666667%;
+}
+
+.grid-col_3 {
+  flex-basis: 25%;
+  max-width: 25%;
+}
+
+.grid-col_4 {
+  flex-basis: 33.33333333%;
+  max-width: 33.33333333%;
+}
+
+.grid-col_5 {
+  flex-basis: 41.66666667%;
+  max-width: 41.66666667%;
+}
+
+.grid-col_6 {
+  flex-basis: 50%;
+  max-width: 50%;
+}
+
+.grid-col_7 {
+  flex-basis: 58.33333333%;
+  max-width: 58.33333333%;
+}
+
+.grid-col_8 {
+  flex-basis: 66.66666667%;
+  max-width: 66.66666667%;
+}
+
+.grid-col_9 {
+  flex-basis: 75%;
+  max-width: 75%;
+}
+
+.grid-col_10 {
+  flex-basis: 83.33333333%;
+  max-width: 83.33333333%;
+}
+
+.grid-col_11 {
+  flex-basis: 91.66666667%;
+  max-width: 91.66666667%;
+}
+
+.grid-col_12 {
+  flex-basis: 100%;
+  max-width: 100%;
+}

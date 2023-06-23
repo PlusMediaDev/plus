@@ -57,7 +57,7 @@ function UploadPage() {
       );
     } else {
       return (
-        <h1> You have reached your daily upload limit of 1 upload per day.</h1>
+        <h1 className="uploadLimitReachedH1"> Daily upload limit of (1) reached </h1>
       );
     }
   }
@@ -83,8 +83,8 @@ function UploadPage() {
   };
 
   return (
-    <div className="upload" onTouchStart={touchStart} onTouchEnd={touchEnd}>
-      <h1 className="login-register-title">Upload Page</h1>
+    <div className="uploadContianer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
+      {/* <h1 className="login-register-title">Upload Page</h1> */}
       {canUploadCondtionalRender()}
     </div>
   );

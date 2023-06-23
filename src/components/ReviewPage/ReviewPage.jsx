@@ -35,7 +35,7 @@ function ReviewPage() {
   };
 
   return (
-    <div className="container">
+    <div className="reviewContainer">
       <div className="button-container">
         {renderButtons()}
       </div>

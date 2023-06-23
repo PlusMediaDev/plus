@@ -47,7 +47,7 @@ function ShowcasePage() {
   };
 
   return (
-    <div className="memeName" onTouchStart={touchStart} onTouchEnd={touchEnd}>
+    <div className="showcaseContainer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
       {randomMeme ? (
         <img src={randomMeme.contentUrl} alt="Random Meme" />
       ) : (
