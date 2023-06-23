@@ -26,7 +26,7 @@ function ReviewPage() {
     const buttons = [];
     for (let i = 1; i <= 10; i++) {
       buttons.push(
-        <button key={i} onClick={() => handleButtonClick(i)}>
+        <button className="review-buttons" key={i} onClick={() => handleButtonClick(i)}>
           {i}
         </button>
       );
