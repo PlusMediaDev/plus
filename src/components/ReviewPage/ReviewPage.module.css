@@ -25,8 +25,7 @@
 
 .review {
   display: flex;
-  flex-flow: row;
-  justify-content: flex-end;
+  flex-flow: row-reverse;
   align-items: center;
   gap: 32px;
 

@@ -37,13 +37,13 @@ function ReviewPage() {
       }
       return (
         <div key={rating} className={styles["review"]}>
-          <p>{info}</p>
           <button
             onClick={() => handleButtonClick(rating)}
             className={styles["review-button"]}
           >
             {rating}
           </button>
+          <p>{info}</p>
         </div>
       );
     });
