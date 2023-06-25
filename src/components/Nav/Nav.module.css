@@ -1,0 +1,20 @@
+.container {
+  /* flex box layout */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: linear-gradient(90deg, rgb(145, 11, 11) 44%, rgb(8, 24, 144) 89%);
+  /* overflow: visible; */
+  position: sticky;
+  top: 0;
+
+  padding: 8px 24px;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+
+  padding: 12px;
+}
