@@ -5,6 +5,7 @@ body,
 }
 
 body {
+  background: rgb(31, 31, 31);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0px;
 }
@@ -294,15 +295,10 @@ Background image
 ================================================================================ */
 
 .background-image {
-
-  height: 1000px;
   background-color: #ebedff;
   background: url('../../images/redandbluespheres.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-
-  overflow: visible;
-
 }

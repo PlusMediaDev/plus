@@ -6,11 +6,6 @@
 
   margin: 0 0 0px;
   background: linear-gradient(90deg, rgb(145, 11, 11) 44%, rgb(8, 24, 144) 89%);
-  /* overflow: visible; */
-  position: sticky;
-  top: 0;
-
-  padding: 0 24px;
 }
 
 .nav a {
