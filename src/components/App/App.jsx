@@ -28,6 +28,7 @@ import AccountPage from '../AccountPage/AccountPage';
 
 import './App.css';
 import UploadPage from '../UploadPage/UploadPage';
+import styles from "./App.module.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,9 +41,9 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div className={styles["container"]}>
       <Nav />
-      <div className='background-image'>
+      <div className={`background-image ${styles["content"]}`}>
         
           
           <Switch>
