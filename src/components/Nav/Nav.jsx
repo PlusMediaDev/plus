@@ -1,40 +1,47 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LogOutButton from '../LogOutButton/LogOutButton';
-import './Nav.css';
-import { useSelector } from 'react-redux';
-import plusLogo from '../../images/Plus-App-Prime-Client-Project-Sample-1.png';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import styles from "./Nav.module.css";
+
 function Nav() {
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
 
   return (
-    <div className="nav">
-
-
-
+    <div className={styles["container"]}>
       {/* If a user is logged in, show these links */}
       {user.id && (
         <>
-          <Link className="navLinkProfile" to="/accountPage">
-            ☃️
+          <Link to="/accountPage">
+            <img
+              src="images/account-icon-white.png"
+              alt="Account"
+              className={styles["nav-icon"]}
+            />
           </Link>
         </>
       )}
 
-      
-        <Link to='landingPage'>
-          <h2 className="nav-title">✚</h2>
-          </Link>
-     
+      <Link to="landingPage">
+        <img
+          src="images/plus-icon-white.png"
+          alt="Home"
+          className={styles["nav-icon"]}
+        />
+      </Link>
 
       {user.id && (
         <>
-          <LogOutButton className="navLinkLogOut" />
+          <a onClick={() => dispatch({ type: "LOGOUT" })}>
+            <img
+              src="images/logout-icon-white-2.png"
+              alt="Logout"
+              className={styles["nav-icon"]}
+            />
+          </a>
         </>
       )}
-
-
-
     </div>
   );
 }
