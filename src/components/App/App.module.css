@@ -3,9 +3,16 @@
 
   display: flex;
   flex-flow: column;
+
+  overflow: auto;
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .content {
   flex: auto;
-  overflow: auto;
 }
