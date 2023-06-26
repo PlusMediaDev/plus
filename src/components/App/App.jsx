@@ -41,9 +41,11 @@ function App() {
 
   return (
     <Router>
-      <div className={styles["container"]}>
-      <Nav />
-      <div className={`background-image ${styles["content"]}`}>
+      <div className={`${styles["container"]} background-image`}>
+        <div className={styles["nav"]}>
+          <Nav />
+        </div>
+        <div className={styles["content"]}>
         
           
           <Switch>
