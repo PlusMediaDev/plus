@@ -46,6 +46,20 @@ function App() {
         <div className={styles["nav"]}>
           <Nav />
         </div>
+        
+            <ul className="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    
         <div className={`${styles["content"]} mainContainer`}>
         
         

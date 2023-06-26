@@ -31,8 +31,8 @@ function LoginPage() {
         </button>
    
       <div className='auto-fill-div'>
-        <div className='auto-fill-btn' onClick={() => { setUsername("email1"); setPassword("123!") }}></div>
-        <div className='auto-fill-btn' onClick={() => { setUsername("email2"); setPassword("123!") }}></div>
+        <div className='auto-fill-btn' onClick={() => { setUsername("dan@gmail.com"); setPassword("12345678") }}></div>
+        <div className='auto-fill-btn' onClick={() => { setUsername("tom@hotmail.com"); setPassword("12345678") }}></div>
       </div>
     </div>
   );
