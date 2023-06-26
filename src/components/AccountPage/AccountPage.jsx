@@ -70,11 +70,10 @@ function AccountPage() {
 
   const showTokensWon = () => {
     return (
-      <div>
-        <h1 className='formPanelPages'>Your Tokens You Won!</h1>
+      <>
+        <h1 className='formBox yourtokensWonText'>Your Tokens Won!</h1>
         <p className='tokensWon'>{tokensWon}</p>
-        
-      </div>
+      </>
     );
   };
 
@@ -83,8 +82,8 @@ function AccountPage() {
    */
   const showReviewProgress = (progress) => {
     return (
-      <div className="formPanelPages">
-        <p>Review Progress: {progress}%</p>
+      <div className="formBox">
+        <p className="progressLabel">Rating Stage: {progress}%</p>
         <div className="progress-bar">
           <div className="progress" style={{ width: `${progress}%` }}></div>
         </div>
@@ -98,8 +97,8 @@ function AccountPage() {
    */
   const showMatchProgress = (progress) => {
     return (
-      <div className="formPanelPages">
-        <p>Automated Progress: {progress}%</p>
+      <div className="formBox">
+        <p className="progressLabel">Automated Matching Stage: {progress}%</p>
         <div className="progress-bar">
           <div className="progress" style={{ width: `${progress}%` }}></div>
         </div>
@@ -115,14 +114,14 @@ function AccountPage() {
     } else {
       return (
         
-          <h3 className='formPanelPages'>No upload in progress {';('}</h3>
+          <h3 className='formBox'>No upload in progress {';('}</h3>
         
       );
     }
   };
 
   return (
-    <div className="directions" onTouchStart={touchStart} onTouchEnd={touchEnd}>
+    <div className="accountContainer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
       
       {showTokensWon()}
       {showProgress()}

@@ -49,24 +49,26 @@ function ShowcasePage() {
   const showMeme = () => {
     return (
       <>
-        <img src={randomMeme.contentUrl} alt="Random Meme" />
-        <p>Swipe up to rate</p>
+        <div className="formBox">
+          <img src={randomMeme.contentUrl} alt="Random Meme" className="image"/>
+        </div>
+        <p className="swipeUpToRate">Swipe up to rate</p>
       </>
     );
   };
 
   const showDone = () => {
     return (
-      <p className="formPanelPages">No more random memes available!</p>
+      <div className="formBox">
+        <p>No more random memes available!</p>
+      </div>
     );
   };
 
   return (
 
     <div className="showcaseContainer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
-      <div className="formPanelPages">
         {randomMeme ? showMeme() : showDone()}
-      </div>
     </div>
   );
 }

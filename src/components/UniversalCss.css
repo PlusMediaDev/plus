@@ -2,7 +2,7 @@
 .react-root {
   height: calc(100vh + 1px);
   width: 100vw;
-  background-color: green;
+  /* background-color: green; */
   margin: 0%;
   overflow: hidden;
 }
@@ -13,6 +13,11 @@
   .appContainer {
     height: 100%;
     width: 100%;
+    background: url('../images/redandbluespheres.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     /* background-color: red; */
   }
   
@@ -38,13 +43,8 @@
 
     height: 100%;
     /* background-color: blue; */
-    background: url('../images/redandbluespheres.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-/*   
-    overflow: visible; */
+ 
+/*   overflow: visible; */
   
   }
 
@@ -63,10 +63,11 @@
 
 /*Login Form*/
 .loginForm {
-  background: grey;
+  background: #ffffffab;;
   max-width: 90%;
   max-height: 30%;
   border: 1px solid black;
+  border-radius: 15px;
   padding: 2em;
   margin-top: 10%;
 }
@@ -86,6 +87,7 @@
 .auto-fill-btn {
   min-width: 50%;
   min-height: 100%;
+  /* background-color: blue; */
 }
 
 .btn_asLink {
@@ -94,6 +96,27 @@
 
 
 /*Showcase Page*/
+.showcaseContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* padding-top: 10%; */
+  height: 100%;
+}
+
+
+.swipeUpToRate {
+  text-align: center;
+  background: #ffffffab;;
+  min-width: 80%;
+  border: 1px solid black;
+  padding: 1em;
+  margin-top: 10%;
+  border-radius: 15px;
+}
+
+
 .reviewContainer {
   display: flex;
   flex-direction: column;
@@ -104,33 +127,146 @@
   /* background-color: yellow; */
 }
 
-.button-container {
+
+
+/* .button-container {
   border-radius: 15px;
   margin-top: 10%;
   background-color: blue;
   min-width: 80%;
   padding: 1em;
-}
+} */
 
 
 /*Uploads Page*/
 .uploadContianer {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20%;
   padding-top: 0%;
   min-height: 100%;
-  /* background-color: red; */
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  gap: .5em;
+  background: #ffffffab;;
+  min-width: 80%;
+  max-width: 80%;
+  /* height: 200px; */
+  border: 1px solid black;
+  padding: 1em;
+  margin-top: 10%;
+  border-radius: 15px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 }
 
 .uploadLimitReachedH1 {
-  color: white;
-  background-color: grey;
+  max-width: 70%;
+  color: black;
   text-align: center;
-  padding: .25em;
-  margin-top: 10%;
+  font-size: 20px;
+}
+
+.file-button {
+
+  width: 90%;
+  display: block; 
+  /* padding: 5px 10px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px; */
+  background-color: pink;
+  /* color: #f8f8f8; */
+  font-size: 1em;
+  outline: 0;
+  cursor: pointer;
+
+}
+
+.upload-button {
+  font-size: 1em;
+  /* margin: 0%;
+  display: block;
+  padding: 0px;
+  border-color: #000000;
+  border-width: 1px 1px 1px;
+  border-radius: 4px;
+  background-color: #3100f49f;
+  color: #f8f8f8;
+  font-size: 1.1rem;
+  outline: 0;
+  cursor: pointer;
+  text-align: center;
+
+  justify-content: center; */
 }
 
 
+/*Directions Page*/
+.directionsConatiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100%;
+  min-width: 100%;
+
+}
+
+/*Account Page*/
+.accountContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100%;
+  min-width: 100%;
+  /* background-color: #8fffb6; */
+}
+
+.yourtokensWonText {
+  font-size: 25px;
+}
+
+.tokensWon {
+
+  box-sizing: border-box;
+  width: 90%;
+  padding: 50px;
+  margin: 0px;
+  
+  border-radius: 15px;
+  
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
+  color: #444;
+  background-color: #d7dcff;
+
+  text-align: center;
+  font-size: 200px;
+
+  animation-name: tokensWon;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes tokensWon {
+
+  0%   {background-color: #ff9292;}
+  25%  {background-color: #ffcc95;}
+  50%  {background-color: #fffd96;}
+  75%  {background-color: #8fffb6;}
+  100% {background-color: #d7dcff;}
+
+}
 
 
 html,
@@ -198,11 +334,12 @@ Button
 
   display: inline-block;
   padding: 7px 40px;
+  
   border-color: #ffcccc;
   border-width: 1px 1px 1px;
   border-radius: 4px;
   background-color: #ffffffab;
-  color: #f8f8f8;
+  color: black;
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
@@ -251,39 +388,7 @@ Button
   color: #008183;
 }
 
-.upload-button {
 
-  display: inline-block;
-  padding: 5px 10px;
-  border-color: #000000;
-  border-width: 1px 1px 1px;
-  border-radius: 4px;
-  background-color: #3100f49f;
-  color: #f8f8f8;
-  font-size: 1.1rem;
-  outline: 0;
-  cursor: pointer;
-  text-align: center;
-
-  justify-content: center;
-}
-
-.file-button {
-
-  display: inline-block;
-  padding: 5px 10px;
-  border-color: #000000;
-  border-width: 1px 1px 1px;
-  border-radius: 4px;
-  background-color: #3100f49f;
-  color: #f8f8f8;
-  font-size: 1.1rem;
-  outline: 0;
-  cursor: pointer;
-
-  margin-left: 0px;
-
-}
 
 /* --------------------------------------------------------------------------------
 Alert
@@ -344,38 +449,7 @@ Form Treatment
   text-align: center;
 }
 
-.tokensWon {
 
-  box-sizing: border-box;
-  width: 400px;
-  max-width: 100%;
-  padding: 50px;
-  margin: 40px auto 100px;
-  
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
-
-  color: #444;
-  background-color: #d7dcff;
-
-  text-align: center;
-  font-size: 200px;
-
-  animation-name: tokensWon;
-  animation-duration: 4s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate-reverse;
-}
-
-@keyframes tokensWon {
-
-  0%   {background-color: #ff9292;}
-  25%  {background-color: #ffcc95;}
-  50%  {background-color: #fffd96;}
-  75%  {background-color: #8fffb6;}
-  100% {background-color: #d7dcff;}
-
-}
 
 input {
   margin: 5px;
@@ -415,15 +489,6 @@ Background image
 
 
 
-.showcaseContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 10%;
-  height: 100%;
-  /* background-color: yellow; */
-}
 
 
 
@@ -501,108 +566,38 @@ Background image
 Landing Page CSS Stuff 
 ---------------------------------------------------------------------------------*/
 
-.landing-page-css {
-
+.landingPageContainer {
   display: flex;
+  flex-direction: column; 
   justify-content: flex-start;
   align-items: center;
-  flex-direction: column; 
-  gap: 10%;
+  gap: 20%;
 
-  padding-top: 5%;
-  margin-left: 10%;
-  max-width: 80%;
-  /* margin-bottom: 500px; */
-  margin-top: 0%;
   min-height: 100%;
+  max-width: 100%;
+  /* margin-bottom: 500px; */
+  /* background-color: #008183; */
   
 }
 
-.showcase-page-button {
-  /* justify-content: space-evenly;
-  flex-direction: column;  */
-  font-size: 17px;
-  min-width: 100%;
-  /* padding: 39%; */
+.landingPageButton {
+  margin-top: 10%;
+  font-size: 20px;
+  min-width: 80%;
+
   padding-top: 25px;
   padding-bottom: 25px;
-  margin-top: 10%;
-  margin-bottom: 10%;
 
-  border: #000000 2px;
-  border-style: solid;
-  border-radius: 10px;
+  border: 1px solid black;
+  border-radius: 15px;
   background-color: #ffffffb7;
 
   color: #000000;
-
   text-align: center;
-  
   box-shadow: 0 0 20px ;
 }
 
-.upload-page-button {
-  /* justify-content: space-evenly;
-  flex-direction: column;  */
-  font-size: 17px;
-  min-width: 100%;
-  /* padding: 39%; */
-  padding-top: 25px;
-  padding-bottom: 25px;
-  margin-top: 10%;
-  margin-bottom: 10%;
 
-  border: #000000 2px;
-  border-style: solid;
-  border-radius: 10px;
-  background-color: #ffffffb7;
-
-  color: #000000;
-
-  box-shadow: 0 0 20px ;
-}
-
-.directions-page-button {
-  /* justify-content: space-evenly;
-  flex-direction: column;  */
-  font-size: 17px;
-  min-width: 100%;
-  /* padding: 39%; */
-  padding-top: 25px;
-  padding-bottom: 25px;
-  margin-top: 10%;
-  margin-bottom: 10%;
-
-  border: #000000 2px;
-  border-style: solid;
-  border-radius: 10px;
-  background-color: #ffffffb7;
-
-  color: #000000;
-
-  box-shadow: 0 0 20px ;
-}
-
-.account-page-button {
-  /* justify-content: space-evenly;
-  flex-direction: column;  */
-  font-size: 17px;
-  min-width: 100%;
-  /* padding: 39%; */
-  padding-top: 25px;
-  padding-bottom: 25px;
-  margin-top: 10%;
-  margin-bottom: 10%;
-
-  border: #000000 2px;
-  border-style: solid;
-  border-radius: 10px;
-  background-color: #ffffffb7;
-
-  color: #000000;
-
-  box-shadow: 0 0 20px ;
-}
 
 
 
