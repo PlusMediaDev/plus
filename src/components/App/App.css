@@ -1,12 +1,17 @@
-html,
-body,
-#react-root {
-  height: 100%;
+html {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0px;
+  height: 100vh;
+  overflow: hidden;
+  background: rgb(31, 31, 31);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#react-root {
+  height: 100%;
 }
 
 img {
@@ -295,13 +300,16 @@ Background image
 
 .background-image {
 
+
   min-height: 100%;
+
   background-color: #ebedff;
   background: url('../../images/redandbluespheres.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+
 
   overflow: visible;
 
@@ -324,3 +332,6 @@ Background image
 =======
 >>>>>>> main
 } */
+
+}
+

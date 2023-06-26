@@ -48,7 +48,7 @@ function UploadPage() {
   function canUploadCondtionalRender() {
     if (canUpload) {
       return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <input className="file-button" type="file" onChange={handleChange} />
           <button type="submit" className="upload-button">
             Upload Media

@@ -46,13 +46,27 @@ function ShowcasePage() {
     }
   };
 
-  return (
-    <div className="showcaseContainer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
-      {randomMeme ? (
+  const showMeme = () => {
+    return (
+      <>
         <img src={randomMeme.contentUrl} alt="Random Meme" />
-      ) : (
-        <p className="formPanelPages">No more random memes available!</p>
-      )}
+        <p>Swipe up to rate</p>
+      </>
+    );
+  };
+
+  const showDone = () => {
+    return (
+      <p className="formPanelPages">No more random memes available!</p>
+    );
+  };
+
+  return (
+
+    <div className="showcaseContainer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
+      <div className="formPanelPages">
+        {randomMeme ? showMeme() : showDone()}
+      </div>
     </div>
   );
 }

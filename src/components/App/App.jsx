@@ -28,6 +28,7 @@ import AccountPage from '../AccountPage/AccountPage';
 
 import '../UniversalCss.css';
 import UploadPage from '../UploadPage/UploadPage';
+import styles from "./App.module.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,11 +41,14 @@ function App() {
 
   return (
     <Router>
-      <div className='appContainer'>
-        <Nav />
-        <div className='mainContainer'>
 
-
+      <div className={`${styles["container"]} appContainer`}>
+        <div className={styles["nav"]}>
+          <Nav />
+        </div>
+        <div className={`${styles["content"]} mainContainer`}>
+        
+        
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/landingPage" />
