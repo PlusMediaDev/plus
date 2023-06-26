@@ -1,13 +1,17 @@
-html,
-body,
-#react-root {
-  height: 100%;
+html {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
+  margin: 0px;
+  height: 100vh;
+  overflow: hidden;
   background: rgb(31, 31, 31);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0px;
+}
+
+#react-root {
+  height: 100%;
 }
 
 img {
