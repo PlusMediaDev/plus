@@ -27,6 +27,8 @@ CREATE TABLE "ratings" (
 CREATE TABLE "uploads_for_matching" (
 	"id" SERIAL PRIMARY KEY,
 	"average_rating" DOUBLE PRECISION NOT NULL,
+	"tokens" INT NOT NULL DEFAULT 1
+		CONSTRAINT "positive_tokens" CHECK ("tokens" >= 0),
 	"total_matches" INT NOT NULL DEFAULT 0,
 	"last_matched_at" TIMESTAMP,
 	"uploaded_at" TIMESTAMP NOT NULL,
