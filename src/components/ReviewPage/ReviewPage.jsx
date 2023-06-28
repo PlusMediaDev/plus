@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import '../UniversalCss.css';
 import styles from "./ReviewPage.module.css";
 import range from "../../utils/range";
 
@@ -77,7 +78,8 @@ function ReviewPage() {
   };
 
   return (
-    <div className={styles["container"]}>
+
+    <div className={`${styles["container"]} reviewContainer`}>
       <div className={styles["ratings-container"]}>{showRatings()}</div>
     </div>
   );

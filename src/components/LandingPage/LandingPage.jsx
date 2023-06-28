@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import './LandingPage.css';
+import '../UniversalCss.css';
 import ShowcasePage from '../ShowcasePage/ShowcasePage'
 
 function LandingPage() {
@@ -8,20 +8,20 @@ function LandingPage() {
   const history = useHistory();
 
   return (
-    <div className='landing-page-css'>
-      <button className='showcase-page-button' onClick={() => {history.push("/showcasePage")}}>  
+    <div className='landingPageContainer'>
+      <button className='landingPageButton' onClick={() => {history.push("/showcasePage")}}>  
         Showcase
       </button>
 
-      <button className='upload-page-button' onClick={() => {history.push("/uploadPage")}}>  
+      <button className='landingPageButton'onClick={() => {history.push("/uploadPage")}}>  
         Upload
       </button>
 
-      <button className='directions-page-button' onClick={() => {history.push("/directionsPage")}}>  
+      <button className='landingPageButton' onClick={() => {history.push("/directionsPage")}}>  
         Directions
       </button>
 
-      <button className='account-page-button' onClick={() => {history.push("/accountPage")}}>  
+      <button className='landingPageButton' onClick={() => {history.push("/accountPage")}}>  
         Account
       </button>
     </div>

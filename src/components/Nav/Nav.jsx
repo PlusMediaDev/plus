@@ -1,15 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
+import React from 'react';
+import { Link } from 'react-router-dom';
+import LogOutButton from '../LogOutButton/LogOutButton';
+import universalCss from '../UniversalCss.css';
+import { useSelector, useDispatch } from 'react-redux';
+import plusLogo from '../../images/Plus-App-Prime-Client-Project-Sample-1.png';
 import styles from "./Nav.module.css";
+
 
 function Nav() {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
 
   return (
-    <div className={styles["container"]}>
+
+    <div className={`${styles["container"]} navContainer`}>
+
       {/* If a user is logged in, show these links */}
       {user.id && (
         <>

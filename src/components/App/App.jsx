@@ -26,7 +26,7 @@ import ReviewPage from '../ReviewPage/ReviewPage';
 import DirectionsPage from '../DirectionsPage/DirectionsPage';
 import AccountPage from '../AccountPage/AccountPage';
 
-import './App.css';
+import '../UniversalCss.css';
 import UploadPage from '../UploadPage/UploadPage';
 import styles from "./App.module.css";
 
@@ -41,13 +41,28 @@ function App() {
 
   return (
     <Router>
-      <div className={`${styles["container"]} background-image`}>
+
+      <div className={`${styles["container"]} appContainer`}>
         <div className={styles["nav"]}>
           <Nav />
         </div>
-        <div className={styles["content"]}>
         
-          
+            <ul className="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    
+        <div className={`${styles["content"]} mainContainer`}>
+        
+        
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/landingPage" />
@@ -147,10 +162,10 @@ function App() {
             </Route>
           </Switch>
           {/* <Footer /> */}
-          
-         
 
-      </div>
+
+
+        </div>
       </div>
     </Router>
   );

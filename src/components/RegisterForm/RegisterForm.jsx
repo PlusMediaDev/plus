@@ -21,7 +21,7 @@ function RegisterForm() {
 
   return (
     
-    <form className="formPanel" onSubmit={registerUser}>
+    <form className="loginForm" onSubmit={registerUser}>
       <h1 className='login-register-title'>Registration</h1>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">

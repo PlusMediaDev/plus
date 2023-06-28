@@ -48,16 +48,18 @@ function UploadPage() {
   function canUploadCondtionalRender() {
     if (canUpload) {
       return (
-        <form  onSubmit={handleSubmit}>
-          <input className="file-button" type="file" onChange={handleChange} />
-          <button type="submit" className="upload-button">
-            Upload Media
-          </button>
-        </form>
+          <form className="formBox" onSubmit={handleSubmit} >
+            <input className="file-button" type="file" onChange={handleChange} />
+            <button type="submit" className="upload-button">
+              Upload Media
+            </button>
+          </form>
       );
     } else {
       return (
-        <h1 className="formPanelPages"> You have reached your daily upload limit of 1 upload per day.</h1>
+        <div className="formBox">
+          <h1 className="uploadLimitReachedH1"> Daily upload limit of (1) reached </h1>
+        </div>
       );
     }
   }
@@ -83,8 +85,7 @@ function UploadPage() {
   };
 
   return (
-    <div className="formPanelPages" onTouchStart={touchStart} onTouchEnd={touchEnd}>
-      <h1 className="login-register-title">Upload Page</h1>
+    <div className="uploadContianer" onTouchStart={touchStart} onTouchEnd={touchEnd}>
       {canUploadCondtionalRender()}
     </div>
   );
