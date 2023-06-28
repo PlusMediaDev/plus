@@ -40,7 +40,7 @@
     overflow: hidden;
 }
 
-.circles li{
+/* .circles li{
     position: absolute;
     display: block;
     list-style: none;
@@ -52,7 +52,7 @@
 
     backdrop-filter: blur(8px);
     
-}
+} */
 
 .circles li:nth-child(1){
     left: 25%;
