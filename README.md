@@ -33,11 +33,11 @@ Before you get started, make sure you have the following software installed on y
 5. Open VS Code (or editor of your choice) and open the folder
 6. In the terminal of VS Code run `npm install` to install all dependencies
 7. Create a `.env file `at the root of the project and paste this line into the file: **Look into your handout for the password**
-8. Create a database named`plus_app`in PostgresSQL If you would     like to name your database something else, you will need to change `plus_app` to the name of your new database name in `server/modules/pool.js`
-9. The queries in the `database.sql` file are set up to create all the necessary tables that you need, as well as a dummy data table to test the app. Copy and paste those queries in the SQL query of the database. 
+8. Create a database named`plus_app`in PostgresSQL If you would like to name your database something else, you will need to change `plus_app` to the name of your new database name in `server/modules/pool.js`
+9. The queries in the `database.sql` file are set up to create all the necessary tables that you need, as well as some test data to test the app. Copy and paste those queries in the SQL query of the database. 
 10. Run `npm run server` in your VS Code terminal or open a second terminal with shortcut `CTRL + T`
 11. Open a second terminal or third terminal and run `npm run client`
-12. **Will react still Navigate to `localhost:3000` with heroku?**
+12. React still Navigate to `localhost:3000`
 
 # Usage
 
@@ -49,4 +49,7 @@ Video walkthrough of application usage: ` Future Link to Video`
 
 1. Login Credentials for Heroku have been provided in the `hand off document`.
 
-2. 
+2. If you need make changes you wish to push to the deployed app, you must login, go into the pet-star section, go to the deploy tab, and then manually deploy. 
+   You can reconfigure this to redeploy automatically if you wish, which is on the same page.
+
+3. Environment variables are kept on Heroku in the Settings tab, just click the Reveal Config Vars button
