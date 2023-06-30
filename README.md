@@ -1,6 +1,8 @@
 # Descriptions
 This application is a 'gamified', social media algorithm app. In this app, users can upload 1 piece of media (any static image such as .jpeg .png) per day (calendar day in the server's timezone). Other users in this application can then rate these uploaded pieces of media on a scale of 1-10. After a requisite number of ratings (50 ratings for production and 10 for testing) from anonymous users, an uploaded piece of media is moved from the 'Rating Stage' to the  'Automated Matching Stage' - where the magic happens. In this stage, uploaded pieces of media receive 1 token initially. Additionally, uploaded pieces of media from different users are then compared using their average ratings from the previous 'Rating Stage.' When two pieces of media are matched up with one another, the media with the higher rating-average claims 1 token from the media with the lower rating-average. If a piece of media ends up with zero tokens, it is then kicked out of the 'Automated Matching Stage' and the original uploader essentially loses 1 token. As long as a piece of media has at least 1 token, it will keep getting matched with other pieces of media until it hits a token count of zero, or it reaches its max amount of matchups allowed. A piece of media finishes the 'Automated Matching Stage' by either losing all of its tokens or hitting the match limit (4500 for production, 10 for prototyping/testing). The amount of tokens accumulated through this process will then be added into the user's 'tokens won' balance.
 
+**Currently deployed [here](https://plus-app-f1a61fe6dbd4.herokuapp.com/)**
+
 # Built With
 
 HTML
@@ -47,7 +49,7 @@ Before you get started, make sure you have the following software installed on y
 
 **Once everything is installed and running it should open in your default browser - if not, navigate to `http://localhost:3000/`.**
 
-Video walkthrough of application usage: `Future Link to Video`
+Video walkthrough of application usage [here](https://youtu.be/_bvIbrzSco8)
 
 # Deployment
 
